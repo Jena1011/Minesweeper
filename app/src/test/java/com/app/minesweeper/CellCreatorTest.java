@@ -13,4 +13,18 @@ public class CellCreatorTest {
         ArrayList<Cell> cells = cellCreator.create();
         Assert.assertEquals(81,cells.size());
     }
+
+    @Test
+    public void cell_should_close(){
+        CellCreator cellCreator = new CellCreator();
+        cellCreator.level = 9;
+        ArrayList<Cell> cells = cellCreator.create();
+       int closeCount = 0;
+        for(Cell cell:cells){
+            if(cell.status == STATUS.CLOSE){
+                closeCount++;
+            }
+        }
+        Assert.assertEquals(81,closeCount);
+    }
 }
