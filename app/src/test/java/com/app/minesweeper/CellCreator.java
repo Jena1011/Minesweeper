@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class CellCreator {
-    public int level = 0;
+    public int level = 0; // 難度等級
 
     // 創造格子
     public ArrayList<Cell> create() {

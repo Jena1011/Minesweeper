@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="level">
+        <item name="level9">9X9</item>
+    </array>
+</resources>
