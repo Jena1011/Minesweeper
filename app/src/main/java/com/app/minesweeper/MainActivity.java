@@ -20,11 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
         // 產生選取難度等級的對話框
         new AlertDialog.Builder(MainActivity.this).setTitle(R.string.select_level)
-                .setItems(R.array.level, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // 傳入level參數，對話框消失
-                    }
+                .setItems(R.array.level, (dialogInterface, i) -> {
+                    // 傳入level參數，對話框消失
                 })
 //                .create()
                 .show();
