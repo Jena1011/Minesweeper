@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="#F44336">
+
+    <ImageView
+        android:id="@+id/iv_cell"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/cell_shape"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

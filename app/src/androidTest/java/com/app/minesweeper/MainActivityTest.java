@@ -33,7 +33,7 @@ public class MainActivityTest {
     @Test
     public void loadCellTest() {
         //檢驗：一開始，顯示81個格子
-        onView(withId(R.id.recycleView))
+        onView(withId(R.id.rv_cells))
                 .check(matches(hasChildCount(81)));
     }
 
