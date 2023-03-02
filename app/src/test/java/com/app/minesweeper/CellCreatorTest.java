@@ -1,5 +1,7 @@
 package com.app.minesweeper;
 
+import androidx.annotation.NonNull;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,8 +12,7 @@ public class CellCreatorTest {
     //檢驗：創造符合level的格子數
     @Test
     public void testCreateCell(){
-        CellCreator cellCreator = new CellCreator();
-        cellCreator.level = 9;
+        CellCreator cellCreator = createLevelCell(9);
         ArrayList<Cell> cells = cellCreator.create();
         Assert.assertEquals(81,cells.size());
     }
@@ -44,5 +45,12 @@ public class CellCreatorTest {
             }
         }
         Assert.assertEquals(13,mineCount);
+    }
+
+    @NonNull
+    private CellCreator createLevelCell(int level) {
+        CellCreator cellCreator = new CellCreator();
+        cellCreator.level = level;
+        return cellCreator;
     }
 }

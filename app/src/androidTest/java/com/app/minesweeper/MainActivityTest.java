@@ -32,10 +32,18 @@ public class MainActivityTest {
     @Test
     public void loadCellTest() {
         //檢驗：一開始，顯示81個格子
-
         onView((withId(R.id.tv_test)))
                 .check(matches(isDisplayed()));
-
     }
+
+        //檢驗：點擊格子，變成打開狀態
+
+        //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
+
+        //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
+
+        //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
+
+        //檢驗：長按格子，顯示旗子圖示
 
 }
