@@ -17,7 +17,7 @@ public class CellCreator {
         for (int i = 0; i < level; i++) {
             for (int j = 0; j < level; j++) {
                 Cell cell = new Cell();
-                cell.status = STATUS.CLOSE;
+                cell.status = Cell.STATUS.CLOSE;
                 if (indexSet.contains(i * 9 + j)) {
                     cell.isMine = true;
                 }

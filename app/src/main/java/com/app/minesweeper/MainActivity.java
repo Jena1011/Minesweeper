@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView rv_cells;
@@ -22,20 +24,22 @@ public class MainActivity extends AppCompatActivity {
         rv_cells = findViewById(R.id.rv_cells);
 
         // 產生選取難度等級的對話框
-        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.select_level)
-                .setItems(R.array.level, (dialogInterface, i) -> {
-                    // 傳入level參數，對話框消失
-                })
-                .show();
-
-        rv_cells.setAdapter(new CellsRVAdapter(new String[]{"", "", "", "", "", "", "", "", "",""}));
+//        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.select_level)
+//                .setItems(R.array.level, (dialogInterface, i) -> {
+//                    // 傳入level參數，對話框消失
+//                })
+//                .show();
+        CellCreator cellCreator = new CellCreator();
+        cellCreator.level = 9;
+        ArrayList<Cell> cells = cellCreator.create();
+        rv_cells.setAdapter(new MainAdapter(cells));
         rv_cells.setLayoutManager(new GridLayoutManager(this,9));
 
     }
 
-    public class CellsRVAdapter extends RecyclerView.Adapter<CellsRVAdapter.ViewHolder> {
+    public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-        private String[] localDataSet;
+        private ArrayList<Cell> localDataSet;
 
         /**
          * Provide a reference to the type of views that you are using
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public CellsRVAdapter(String[] dataSet) {
+        public MainAdapter(ArrayList<Cell> dataSet) {
             localDataSet = dataSet;
         }
 
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return localDataSet.length;
+            return localDataSet.size();
         }
     }
 

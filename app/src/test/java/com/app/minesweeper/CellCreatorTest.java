@@ -9,7 +9,7 @@ public class CellCreatorTest {
 
     //檢驗：創造符合level的格子數
     @Test
-    public void createCell(){
+    public void testCreateCell(){
         CellCreator cellCreator = new CellCreator();
         cellCreator.level = 9;
         ArrayList<Cell> cells = cellCreator.create();
@@ -24,7 +24,7 @@ public class CellCreatorTest {
         ArrayList<Cell> cells = cellCreator.create();
        int closeCount = 0;
         for(Cell cell:cells){
-            if(cell.status == STATUS.CLOSE){
+            if(cell.status == Cell.STATUS.CLOSE){
                 closeCount++;
             }
         }
