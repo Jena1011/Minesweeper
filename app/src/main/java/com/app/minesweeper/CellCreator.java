@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-public class CellCreator {
+public class CellCreator implements ICellCreator {
     public int level = 0; // 難度等級
 
     // 創造格子
+    @Override
     public ArrayList<Cell> create() {
         ArrayList<Cell> list = new ArrayList<>();
 
@@ -28,6 +29,7 @@ public class CellCreator {
     }
 
     // 設定地雷位置
+    @Override
     public HashSet<Integer> createRandomIndexes(int cellSizes) {
         int numberOfIndex = (int) Math.ceil(cellSizes * cellSizes * 0.15);
         HashSet<Integer> indexSet = new HashSet<>();

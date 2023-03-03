@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView rv_cells;
+    MineSweeper mineSweeper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
 //                    // 傳入level參數，對話框消失
 //                })
 //                .show();
+        mineSweeper = new MineSweeper();
+        int level = 9;
         CellCreator cellCreator = new CellCreator();
-        cellCreator.level = 9;
-        ArrayList<Cell> cells = cellCreator.create();
-        rv_cells.setAdapter(new MainAdapter(cells));
+        cellCreator.level = level;
+        mineSweeper.startGame(cellCreator);
+        rv_cells.setAdapter(new MainAdapter(mineSweeper.cells));
         rv_cells.setLayoutManager(new GridLayoutManager(this,9));
 
     }

@@ -12,14 +12,12 @@ public class MineSweeperTest {
     public void startGame(){
         int level = 9;
         MineSweeper mineSweeper = new MineSweeper();
-        mineSweeper.startGame(level);
-        ArrayList<Cell> cells = new ArrayList<>();
+        CellCreator cellCreator = new CellCreator();
+        cellCreator.level = level;
+        mineSweeper.startGame(cellCreator);
+        ArrayList<Cell> cells = mineSweeper.cells;
         Assert.assertEquals(81,cells.size());
 
-//        CellCreator cellCreator = new CellCreator();
-//        cellCreator.level = 9;
-//        ArrayList<Cell> cells = cellCreator.create();
-//        Assert.assertEquals(81,cells.size());
     }
 
     //檢驗：點擊格子，變成打開狀態
