@@ -35,12 +35,9 @@ public class MineSweeperTest {
         init.add("-");
         ArrayList<Cell> cells = createCell(init);
 
-//        ICellCreator creator = new FakeCellCreator();
-//        ((FakeCellCreator) creator).cells = cells;
-//        mineSweeper.startGame(creator);
-
-        mineSweeper.startGame((ICellCreator) (new FakeCellCreator().cells = cells));
-
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
 
         mineSweeper.tap(0,0);
 
@@ -99,11 +96,9 @@ public class MineSweeperTest {
         init.add("-|-|*|-|-");
         ArrayList<Cell> cells = createCell(init);
 
-//        ICellCreator creator = new FakeCellCreator();
-//        ((FakeCellCreator) creator).cells = cells;
-//        mineSweeper.startGame(creator);
-
-        mineSweeper.startGame((ICellCreator) (new FakeCellCreator().cells = cells));
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
 
         mineSweeper.tap(0,1);
 
