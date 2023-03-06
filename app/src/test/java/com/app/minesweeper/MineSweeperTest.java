@@ -31,8 +31,6 @@ public class MineSweeperTest {
     //檢驗：點擊格子，變成打開狀態
     @Test
     public void tapCellShouldOpen(){
-//        ArrayList<Cell> cells = new ArrayList<>();
-//        cells.add(new Cell(0,0));
         ArrayList<String> init = new ArrayList<>();
         init.add("-");
         ArrayList<Cell> cells = createCell(init);
@@ -41,31 +39,28 @@ public class MineSweeperTest {
         ((FakeCellCreator) creator).cells = cells;
         mineSweeper.startGame(creator);
 
-        int x = 0;
-        int y = 0;
+//        mineSweeper.startGame((ICellCreator) (new FakeCellCreator().cells = cells));
 
-        mineSweeper.tap(x,y);
+
+        mineSweeper.tap(0,0);
 
         ArrayList<String> verify = new ArrayList<>();
         verify.add(" ");
         verifyDisplay(verify);
-
     }
 
     // 利用圖示字串做驗證
     private void verifyDisplay(ArrayList<String> verify) {
-        for (int x=0; x<verify.size(); x++) {
-            String[] ylist = verify.get(x).split("\\|");
-            for(int y=0; y<ylist.length; y++){
-                String value = ylist[y];
+        for (int y=0; y<verify.size(); y++) {
+            String[] ylist = verify.get(y).split("\\|");
+            for(int x=0; x<ylist.length; x++){
+                String value = ylist[x];
                 Cell findCell = mineSweeper.getCell(x,y);
-                switch (value){
-                    case " ":
-                        Assert.assertEquals("$x, $y", Cell.STATUS.OPEN, findCell.status);
-                        break;
-                    case "-":
-                        Assert.assertEquals("$x, $y", Cell.STATUS.CLOSE, findCell.status);
-                        break;
+//                assert findCell != null;
+                if (value.equals("-")||value.equals("*")){
+                    Assert.assertEquals("$x, $y", Cell.STATUS.CLOSE, findCell.status);
+                } else {
+                    Assert.assertEquals("$x, $y", Cell.STATUS.OPEN, findCell.status);
                 }
             }
         }
@@ -74,18 +69,19 @@ public class MineSweeperTest {
     // 將圖示字串轉為 ArrayList<Cell>
     private ArrayList<Cell> createCell(ArrayList<String> initSweeper) {
         ArrayList<Cell> cells = new ArrayList<>();
-        for (int x=0; x<initSweeper.size(); x++) {
-            String[] ylist = initSweeper.get(x).split("|");
-            for(int y=0; y<ylist.length; y++){
+        for (int y=0; y<initSweeper.size(); y++) {
+            String[] ylist = initSweeper.get(y).split("\\|");
+            for(int x=0; x<ylist.length; x++){
                 Cell cell = new Cell(x,y);
                 String value = ylist[y];
-                cell.status = Cell.STATUS.CLOSE;
-                if(value==" "){
-                    cell.status = Cell.STATUS.OPEN;
+                cell.status = Cell.STATUS.OPEN;
+                if(value.equals("-")||value.equals("*")){
+                    cell.status = Cell.STATUS.CLOSE;
                 }
                 cells.add(cell);
             }
         }
+        System.out.println(cells);
         return cells;
     }
 
@@ -93,6 +89,32 @@ public class MineSweeperTest {
     //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
 
     //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
+    @Test
+    public void tapNumberShouldDisplay(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*|-|-|-|-");
+        init.add("-|-|-|-|-");
+        init.add("-|*|-|-|-");
+        init.add("-|-|-|-|-");
+        init.add("-|-|*|-|-");
+        ArrayList<Cell> cells = createCell(init);
+
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+//        mineSweeper.startGame((ICellCreator) (new FakeCellCreator().cells = cells));
+
+        mineSweeper.tap(0,1);
+
+        ArrayList<String> verify = new ArrayList<>();
+        verify.add("*|-|-|-|-");
+        verify.add("2|-|-|-|-");
+        verify.add("-|*|-|-|-");
+        verify.add("-|-|-|-|-");
+        verify.add("-|-|*|-|-");
+        verifyDisplay(verify);
+    }
 
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 
