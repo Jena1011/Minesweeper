@@ -80,7 +80,7 @@ public class MineSweeperTest {
             String[] ylist = initSweeper.get(y).split("\\|");
             for(int x=0; x<ylist.length; x++){
                 Cell cell = new Cell(x,y);
-                String value = ylist[y];
+                String value = ylist[x];
                 cell.status = Cell.STATUS.OPEN;
                 if(value.equals("-")||value.equals("*")){
                     cell.status = Cell.STATUS.CLOSE;
