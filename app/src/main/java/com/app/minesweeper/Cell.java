@@ -1,7 +1,10 @@
 package com.app.minesweeper;
 
+import androidx.activity.result.ActivityResult;
+
 public class Cell {
     public boolean isMine = false;
+    public int nextMines = 0;
     private int x;
     private int y;
     STATUS status = null;

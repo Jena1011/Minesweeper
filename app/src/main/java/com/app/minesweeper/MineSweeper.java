@@ -11,6 +11,19 @@ public class MineSweeper {
 
     public void startGame(ICellCreator cellCreator) {
         cells = cellCreator.create();
+        for(Cell cell:cells){
+            setCellNextStatus(cell);
+        }
+    }
+
+    private void setCellNextStatus(Cell cell) {
+        for(int x=cell.getX()-1; x<=cell.getX()+1; x++){
+            for (int y= cell.getY()-1; y<= cell.getY()+1; y++){
+                if (getCell(x,y).isMine){
+                    cell.nextMines ++;
+                }
+            }
+        }
     }
 
     public void tap(int x, int y) {
@@ -18,9 +31,8 @@ public class MineSweeper {
     }
 
 
-    @Nullable
     public Cell getCell(int x, int y) {
-        Cell cell = null;
+        Cell cell = new Cell();
         for (Cell c : cells) {
             if (c.getX() == x && c.getY() == y) {
                 cell = c;
