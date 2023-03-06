@@ -3,6 +3,7 @@ package com.app.minesweeper;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MineSweeper {
 
@@ -13,7 +14,7 @@ public class MineSweeper {
     }
 
     public void tap(int x, int y) {
-        getCell(x,y).status = Cell.STATUS.OPEN;
+        Objects.requireNonNull(getCell(x, y)).status = Cell.STATUS.OPEN;
     }
 
 
