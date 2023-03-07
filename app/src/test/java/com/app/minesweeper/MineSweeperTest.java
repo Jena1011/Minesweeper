@@ -95,9 +95,6 @@ public class MineSweeperTest {
         return cells;
     }
 
-
-    //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
-
     //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
     @Test
     public void tapNumberShouldDisplay(){
@@ -121,6 +118,32 @@ public class MineSweeperTest {
         verify.add("-|*|-|-|-");
         verify.add("-|-|-|-|-");
         verify.add("-|-|*|-|-");
+        verifyDisplay(verify);
+    }
+
+    //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
+    @Test
+    public void tapCellShouldDisplayNextMines(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*|-|-|-|-");
+        init.add("-|-|-|-|-");
+        init.add("-|*|-|-|-");
+        init.add("-|-|-|-|-");
+        init.add("-|-|*|-|-");
+        ArrayList<Cell> cells = createCell(init);
+
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+        mineSweeper.tap(0,4);
+
+        ArrayList<String> verify = new ArrayList<>();
+        verify.add("*|-|-|-|-");
+        verify.add("-|-|-|-|-");
+        verify.add("-|*|-|-|-");
+        verify.add("1|2|-|-|-");
+        verify.add(" |1|*|-|-");
         verifyDisplay(verify);
     }
 
