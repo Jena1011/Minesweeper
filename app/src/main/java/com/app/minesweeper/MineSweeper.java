@@ -1,7 +1,6 @@
 package com.app.minesweeper;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MineSweeper {
 
@@ -34,21 +33,30 @@ public class MineSweeper {
 
     // 按下方格
     public void tap(int xIndex, int yIndex) {
-        openCell(xIndex, yIndex);
-        if(getCell(xIndex, yIndex).nextMines==0){
-            for (int x = xIndex - 1; x <= xIndex + 1; x ++) {
-                for (int y = yIndex - 1; y <= yIndex + 1; y ++) {
-                    if (getCell(x, y).status == null) {
+        Cell cell = getCell(xIndex, yIndex);
+        cell.status = Cell.STATUS.OPEN;
+        if (getCell(xIndex, yIndex).nextMines == 0) {
+            for (int x = xIndex - 1; x <= xIndex + 1; x++) {
+                for (int y = yIndex - 1; y <= yIndex + 1; y++) {
+                    Cell nextCell = getCell(x, y);
+                    if (nextCell.status == null) {
                         continue;
                     }
-                    if (getCell(x, y).getX() == xIndex && getCell(x, y).getY() == yIndex) {
+                    if (x == xIndex && y == yIndex) {
                         continue;
                     }
-                    openCell(x, y);
+                    if (!nextCell.isMine && nextCell.status == Cell.STATUS.CLOSE) {
+                        if (nextCell.nextMines == 0) {
+                            tap(x, y);
+                        } else {
+                            nextCell.status = Cell.STATUS.OPEN;
+                        }
+                    }
                 }
             }
         }
     }
+
 
     // 開啟方格
     private void openCell(int xIndex, int yIndex) {

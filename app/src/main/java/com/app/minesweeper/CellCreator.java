@@ -19,7 +19,7 @@ public class CellCreator implements ICellCreator {
             for (int j = 0; j < level; j++) {
                 Cell cell = new Cell();
                 cell.status = Cell.STATUS.CLOSE;
-                if (indexSet.contains(i * 9 + j)) {
+                if (indexSet.contains( i * 9 + j + 1 )) {
                     cell.isMine = true;
                 }
                 list.add(cell);
@@ -39,5 +39,4 @@ public class CellCreator implements ICellCreator {
         }
         return indexSet;
     }
-
 }

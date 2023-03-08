@@ -147,6 +147,32 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
+    //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子；若打開的格子周圍炸彈數量亦為0，再繼續打開周圍格子
+    @Test
+    public void tapIfNextIs0ThenOpen(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*|-|-|-|-");
+        init.add("-|-|-|-|-");
+        init.add("-|*|-|-|-");
+        init.add("-|-|-|-|-");
+        init.add("-|-|*|-|-");
+        ArrayList<Cell> cells = createCell(init);
+
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+        mineSweeper.tap(3,2);
+
+        ArrayList<String> verify = new ArrayList<>();
+        verify.add("*|1| | | ");
+        verify.add("-|2|1| | ");
+        verify.add("-|*|1| | ");
+        verify.add("-|-|2|1| ");
+        verify.add("-|-|*|1| ");
+        verifyDisplay(verify);
+    }
+
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 
     //檢驗：長按格子，顯示旗子圖示
