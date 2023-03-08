@@ -9,11 +9,21 @@ android {
     defaultConfig {
         applicationId "com.app.minesweeper"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "default"
+    productFlavors{
+        mock{
+            applicationId "com.app.minesweeper.mock"
+        }
+        prod{
+            applicationId "com.app.minesweeper"
+        }
     }
 
     buildTypes {
