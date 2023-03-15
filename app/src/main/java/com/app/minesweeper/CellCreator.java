@@ -1,9 +1,7 @@
 package com.app.minesweeper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
 public class CellCreator implements ICellCreator {
     public int level = 0; // 難度等級
@@ -11,32 +9,39 @@ public class CellCreator implements ICellCreator {
     // 創造格子
     @Override
     public ArrayList<Cell> create() {
-        ArrayList<Cell> list = new ArrayList<>();
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*|-|-|-|-|*|-|-|-");
+        init.add("-|-|-|-|-|-|-|-|-");
+        init.add("-|-|-|-|-|*|-|-|-");
+        init.add("*|*|-|-|-|-|-|-|*");
+        init.add("-|*|-|-|*|-|-|-|*");
+        init.add("-|-|-|*|-|-|-|-|*");
+        init.add("-|-|-|-|-|-|-|-|-");
+        init.add("-|-|-|-|-|-|*|-|-");
+        init.add("-|-|*|-|-|-|-|-|-");
+        return createCell(init);
+    }
 
-        HashSet<Integer> indexSet = createRandomIndexes(this.level);
-
-        for (int i = 0; i < level; i++) {
-            for (int j = 0; j < level; j++) {
-                Cell cell = new Cell();
-                cell.status = Cell.STATUS.CLOSE;
-                if (indexSet.contains( i * 9 + j + 1 )) {
+    // 將圖示字串轉為 ArrayList<Cell>
+    private ArrayList<Cell> createCell(ArrayList<String> initSweeper) {
+        ArrayList<Cell> cells = new ArrayList<>();
+        for (int y=0; y<initSweeper.size(); y++) {
+            String[] ylist = initSweeper.get(y).split("\\|");
+            for(int x=0; x<ylist.length; x++){
+                Cell cell = new Cell(x,y);
+                String value = ylist[x];
+                cell.status = Cell.STATUS.OPEN;
+                if(value.equals("-")||value.equals("*")){
+                    cell.status = Cell.STATUS.CLOSE;
+                }
+                if(value.equals("*")){
                     cell.isMine = true;
                 }
-                list.add(cell);
+                cells.add(cell);
             }
         }
-        return list;
+        System.out.println(cells);
+        return cells;
     }
 
-    // 設定地雷位置
-    @Override
-    public HashSet<Integer> createRandomIndexes(int cellSizes) {
-        int numberOfIndex = (int) Math.ceil(cellSizes * cellSizes * 0.15);
-        HashSet<Integer> indexSet = new HashSet<>();
-        while (indexSet.size() < numberOfIndex) {
-            int randomIndex = (int) (Math.random() * cellSizes * cellSizes + 1);
-            indexSet.add(randomIndex);
-        }
-        return indexSet;
-    }
 }

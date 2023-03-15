@@ -12,8 +12,4 @@ public class FakeCellCreator implements ICellCreator {
         return cells;
     }
 
-    @Override
-    public HashSet<Integer> createRandomIndexes(int cellSizes) {
-        return null;
-    }
 }
