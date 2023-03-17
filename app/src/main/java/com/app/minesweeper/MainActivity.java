@@ -1,95 +1,45 @@
 package com.app.minesweeper;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ICellTapListener {
 
     RecyclerView rv_cells;
     MineSweeper mineSweeper;
+    MainAdapter mainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        rv_cells = findViewById(R.id.rv_cells);
 
-        // 產生選取難度等級的對話框
-//        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.select_level)
-//                .setItems(R.array.level, (dialogInterface, i) -> {
-//                    // 傳入level參數，對話框消失
-//                })
-//                .show();
+        rv_cells = findViewById(R.id.rv_cells);
         mineSweeper = new MineSweeper();
         int level = 9;
         CellCreator cellCreator = new CellCreator();
         cellCreator.level = level;
         mineSweeper.startGame(cellCreator);
-        rv_cells.setAdapter(new MainAdapter(mineSweeper.cells));
+        mainAdapter =  new MainAdapter(mineSweeper.cells);
+
+        /* 筆記：MainAdapter本身並不知道使用者點擊的是哪個格子，所以需要透過ICellTapListener這個介面將使用者點擊的格子傳遞給MainActivity。
+           因此，在MainActivity中，需要實作ICellTapListener這個介面，以便能夠接收來自MainAdapter的使用者點擊事件。
+        */
+        mainAdapter.setCellListener(this);
+
+        rv_cells.setAdapter(mainAdapter);
         rv_cells.setLayoutManager(new GridLayoutManager(this,9));
 
     }
 
-    public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
-
-        private ArrayList<Cell> localDataSet;
-
-        /**
-         * Provide a reference to the type of views that you are using
-         * (custom ViewHolder).
-         */
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            private final ImageView iv_cell;
-
-            public ViewHolder(View view) {
-                super(view);
-
-                iv_cell = view.findViewById(R.id.iv_cell);
-            }
-
-            public ImageView getIv_cell() {
-                return iv_cell;
-            }
-        }
-
-        public MainAdapter(ArrayList<Cell> dataSet) {
-            localDataSet = dataSet;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            // Create a new view, which defines the UI of the list item
-            View view = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.cell_item, viewGroup, false);
-
-            return new ViewHolder(view);
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-
-            // Get element from your dataset at this position and replace the
-            // contents of the view with that element
-            viewHolder.getIv_cell().setImageResource(R.drawable.cell_shape);
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return localDataSet.size();
-        }
+    // 監聽點擊格子的事件
+    @Override
+    public void onCellClick(Cell cell) {
+        mineSweeper.tap(cell.getX(),cell.getY());
+        mainAdapter.notifyDataSetChanged();
     }
 
 }

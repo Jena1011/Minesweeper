@@ -1,7 +1,6 @@
 package com.app.minesweeper;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class CellCreator implements ICellCreator {
     public int level = 0; // 難度等級
@@ -43,5 +42,9 @@ public class CellCreator implements ICellCreator {
         System.out.println(cells);
         return cells;
     }
+
+
+
+
 
 }

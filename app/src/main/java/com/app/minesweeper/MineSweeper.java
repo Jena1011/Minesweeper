@@ -57,7 +57,6 @@ public class MineSweeper {
         }
     }
 
-
     // 開啟方格
     private void openCell(int xIndex, int yIndex) {
         getCell(xIndex, yIndex).status = Cell.STATUS.OPEN;
