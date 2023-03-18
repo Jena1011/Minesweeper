@@ -42,9 +42,4 @@ public class CellCreator implements ICellCreator {
         System.out.println(cells);
         return cells;
     }
-
-
-
-
-
 }

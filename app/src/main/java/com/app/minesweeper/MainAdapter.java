@@ -43,7 +43,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
         // 初始化
         viewHolder.tv_cell.setVisibility(View.GONE);
         viewHolder.iv_cell.setVisibility(View.GONE);
@@ -66,9 +66,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             }
         }
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        // 設定方格被點擊要執行的動作
+        viewHolder.itemView.setOnClickListener(view -> {
+            if(listener!=null){
                 listener.onCellClick(cell);
             }
         });

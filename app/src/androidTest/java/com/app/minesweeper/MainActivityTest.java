@@ -40,6 +40,13 @@ public class MainActivityTest {
                 .check(matches(hasChildCount(81)));
     }
 
+    //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
+    @Test
+    public void clickShowNextMines(){
+        clickCellAt(1, 0);
+        checkNumber(1,0,1);
+    }
+
     //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
     @Test
     public void clickShowNextNextMines() {
@@ -110,10 +117,10 @@ public class MainActivityTest {
         };
     }
 
-    //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
 
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 
     //檢驗：長按格子，顯示旗子圖示
+
 
 }

@@ -24,6 +24,7 @@
                   <entry key="Duration" value="231" />
                   <entry key="L5AXGF00A393RMV" value="120" />
                   <entry key="Pixel_3_XL_API_30" value="120" />
+                  <entry key="Pixel_3_XL_API_30_2" value="120" />
                   <entry key="Tests" value="501" />
                   <entry key="asus" value="120" />
                   <entry key="asus&#10; ASUS_X01BDA" value="120" />
@@ -39,6 +40,19 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_3_XL_API_30" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="378093878">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Pixel_3_XL_API_30_2" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>

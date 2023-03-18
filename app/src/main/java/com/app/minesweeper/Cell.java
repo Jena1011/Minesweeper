@@ -1,13 +1,11 @@
 package com.app.minesweeper;
 
-import androidx.activity.result.ActivityResult;
-
 public class Cell {
     public boolean isMine = false;
     public int nextMines = 0;
     private int x;
     private int y;
-    STATUS status = null;
+    public STATUS status = null;
 
     public Cell() {
 
@@ -26,7 +24,7 @@ public class Cell {
         return this.y;
     }
 
-    enum STATUS {
+    public enum STATUS {
         OPEN, CLOSE
     }
 }
