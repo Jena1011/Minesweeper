@@ -3,6 +3,7 @@ package com.app.minesweeper;
 public class Cell {
     public boolean isMine = false;
     public int nextMines = 0;
+    public boolean isFlagged = false;
     private int x;
     private int y;
     public STATUS status = null;

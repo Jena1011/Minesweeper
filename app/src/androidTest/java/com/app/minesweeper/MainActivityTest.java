@@ -2,6 +2,7 @@ package com.app.minesweeper;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -98,7 +99,6 @@ public class MainActivityTest {
         frameLayout.perform(click());
     }
 
-
     // 返回一個Matcher，用於查找父元素中指定位置的子元素
     private Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position){
         return new TypeSafeMatcher<View>() {
@@ -117,10 +117,9 @@ public class MainActivityTest {
         };
     }
 
-
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 
-    //檢驗：長按格子，顯示旗子圖示
+
 
 
 }

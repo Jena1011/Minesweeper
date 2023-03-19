@@ -62,6 +62,9 @@ public class MineSweeperTest {
                     case  "*":
                         Assert.assertTrue("$x, $y", findCell.isMine);
                         break;
+                    case  "f":
+                        Assert.assertTrue("$x, $y", findCell.isFlagged);
+                        break;
                     default:
                         Assert.assertEquals("$x, $y", Cell.STATUS.OPEN, findCell.status);
                         Assert.assertEquals("$x, $y", value, Integer.toString(findCell.nextMines));
@@ -85,6 +88,9 @@ public class MineSweeperTest {
                 }
                 if(value.equals("*")){
                     cell.isMine = true;
+                }
+                if(value.equals("f")){
+                    cell.isFlagged = true;
                 }
                 cells.add(cell);
             }
@@ -171,8 +177,27 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
+    //檢驗：插旗子
+    @Test
+    public void tagFlagTest(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*");
+        ArrayList<Cell> cells = createCell(init);
+
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+        mineSweeper.tapFlag(0,0);
+
+        ArrayList<String> verify = new ArrayList<>();
+        verify.add("f");
+        verifyDisplay(verify);
+
+    }
+
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 
-    //檢驗：長按格子，顯示旗子圖示
+
 
 }
