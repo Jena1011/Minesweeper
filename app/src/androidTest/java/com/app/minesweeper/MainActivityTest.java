@@ -29,6 +29,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
@@ -173,6 +175,7 @@ public class MainActivityTest {
     }
 
     // 檢驗：長按已插旗的格子，旗子圖示消失
+
 
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 

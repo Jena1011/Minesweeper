@@ -71,6 +71,11 @@ public class MineSweeper {
 
     public void tapFlag(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
-        cell.isFlagged = true;
+        if (!cell.isFlagged) cell.isFlagged = true;
+    }
+
+    public void removeFlag(int xIndex, int yIndex) {
+        Cell cell = getCell(xIndex, yIndex);
+        if (cell.isFlagged) cell.isFlagged = false;
     }
 }

@@ -196,6 +196,23 @@ public class MineSweeperTest {
     }
 
     //檢驗：取消旗子
+    @Test
+    public void removeFlagTest(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*");
+        ArrayList<Cell> cells = createCell(init);
+
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+        mineSweeper.tapFlag(0,0);
+        mineSweeper.removeFlag(0,0);
+
+        ArrayList<String> verify = new ArrayList<>();
+        verify.add("*");
+        verifyDisplay(verify);
+    }
 
 
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
