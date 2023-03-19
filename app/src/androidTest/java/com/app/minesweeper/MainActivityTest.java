@@ -6,7 +6,9 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.*;
@@ -116,6 +118,61 @@ public class MainActivityTest {
             }
         };
     }
+
+    // 檢驗：長按格子，顯示旗子圖示
+    @Test
+    public void longPressShowFlag() {
+        longPressCellAt(0, 0);
+        checkIfFlagged(0,0);
+    }
+
+    // 檢查是否插旗
+    private void checkIfFlagged(int x, int y) {
+        int position = y * 9 + x;
+        ViewInteraction item =
+                onView(
+                        allOf(
+                                withId(R.id.iv_cell),
+                                childAtPosition(
+                                        childAtPosition(
+                                                withId(R.id.rv_cells),
+                                                position
+                                        ),
+                                        1
+                                ),
+                                isDisplayed()
+                        )
+                );
+        item.check(matches(withDrawable(R.drawable.flag)));
+    }
+
+    // 返回DrawableMatcher物件，用於比對 ImageView 是否正確顯示 Drawable 圖片
+    private Matcher<? super View> withDrawable(int resourceId) {
+        return new DrawableMatcher(resourceId);
+    }
+
+    // 長按某座標的方格
+    private void longPressCellAt(int x, int y) {
+        int position =  y * 9 + x;
+        ViewInteraction frameLayout = onView(
+                allOf(
+                        childAtPosition(
+                                allOf(
+                                        withId(R.id.rv_cells),
+                                        childAtPosition(
+                                                instanceOf(LinearLayout.class),
+                                                1
+                                        )
+                                ),
+                                position
+                        ),
+                        isDisplayed()
+                )
+        );
+        frameLayout.perform(longClick());
+    }
+
+    // 檢驗：長按已插旗的格子，旗子圖示消失
 
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 

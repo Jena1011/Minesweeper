@@ -51,6 +51,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         // 方格未開啟
         if (cell.status == Cell.STATUS.CLOSE) {
             viewHolder.itemView.setBackgroundColor(Color.LTGRAY);
+            if(cell.isFlagged){
+                viewHolder.iv_cell.setImageResource(R.drawable.flag);
+                viewHolder.iv_cell.setVisibility(View.VISIBLE);
+            }
         }
         // 方格開啟
         if (cell.status == Cell.STATUS.OPEN) {
@@ -72,6 +76,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 listener.onCellClick(cell);
             }
         });
+
+        // 設定方格長按要執行的動作
+        viewHolder.itemView.setOnLongClickListener(view -> {
+            if(listener!=null){
+                listener.onCellLongClick(cell);
+                return true;
+            }
+            return false;
+        });
+
     }
 
     void setCellListener(ICellTapListener listener){

@@ -193,11 +193,12 @@ public class MineSweeperTest {
         ArrayList<String> verify = new ArrayList<>();
         verify.add("f");
         verifyDisplay(verify);
-
     }
 
-    //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
+    //檢驗：取消旗子
 
+
+    //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 
 
 }

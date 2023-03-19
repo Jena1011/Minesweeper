@@ -42,4 +42,10 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         mainAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onCellLongClick(Cell cell) {
+        mineSweeper.tapFlag(cell.getX(),cell.getY());
+        mainAdapter.notifyDataSetChanged();
+    }
+
 }
