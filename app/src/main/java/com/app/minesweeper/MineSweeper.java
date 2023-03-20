@@ -42,8 +42,15 @@ public class MineSweeper {
         Cell cell = getCell(xIndex, yIndex);
         // 打開格子
         cell.status = Cell.STATUS.OPEN;
-        // 踩到地雷，你輸了!
+        // 你輸了!
         if (cell.isMine) this.status = STATUS.DIE;
+        // 你贏了!
+        for(Cell checkCell:cells){
+            if(!checkCell.isMine && checkCell.status == Cell.STATUS.CLOSE){
+                break;
+            }
+            this.status = STATUS.WIN;
+        }
         // 打開周圍格子
         if (getCell(xIndex, yIndex).nextMines == 0) {
             for (int x = xIndex - 1; x <= xIndex + 1; x++) {

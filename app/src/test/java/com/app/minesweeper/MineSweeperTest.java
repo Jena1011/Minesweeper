@@ -231,5 +231,21 @@ public class MineSweeperTest {
     }
 
     //單元測試：所有沒地雷的格子都打開，顯示 恭喜過關!
+    @Test
+    public void winGameTest(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*|-");
+        init.add("-|-");
+        ArrayList<Cell> cells = createCell(init);
 
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+        mineSweeper.tap(1,0);
+        mineSweeper.tap(0,1);
+        mineSweeper.tap(1,1);
+
+        Assert.assertEquals(mineSweeper.status, MineSweeper.STATUS.WIN);
+    }
 }
