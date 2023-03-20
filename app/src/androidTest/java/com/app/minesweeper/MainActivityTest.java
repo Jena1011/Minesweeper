@@ -3,6 +3,7 @@ package com.app.minesweeper;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -19,6 +20,7 @@ import android.view.ViewParent;
 import android.widget.LinearLayout;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -121,15 +123,15 @@ public class MainActivityTest {
         };
     }
 
-    // 檢驗：長按格子，顯示旗子圖示
+    //檢驗：長按格子，顯示旗子圖示
     @Test
     public void longPressShowFlag() {
         longPressCellAt(0, 0);
-        checkIfFlagged(0,0);
+        checkCellImage(0,0,R.drawable.flag);
     }
 
-    // 檢查是否插旗
-    private void checkIfFlagged(int x, int y) {
+    // 檢查方格中圖片是否符合預期
+    private void checkCellImage(int x, int y, int expectedDrawableId) {
         int position = y * 9 + x;
         ViewInteraction item =
                 onView(
@@ -145,7 +147,11 @@ public class MainActivityTest {
                                 isDisplayed()
                         )
                 );
-        item.check(matches(withDrawable(R.drawable.flag)));
+        if (expectedDrawableId != 0){
+            item.check(matches(withDrawable(expectedDrawableId)));
+        } else {
+            item.check(doesNotExist());
+        }
     }
 
     // 返回DrawableMatcher物件，用於比對 ImageView 是否正確顯示 Drawable 圖片
@@ -174,8 +180,13 @@ public class MainActivityTest {
         frameLayout.perform(longClick());
     }
 
-    // 檢驗：長按已插旗的格子，旗子圖示消失
-
+    //檢驗：長按已插旗的格子，旗子圖示消失
+    @Test
+    public void longPressRemoveFlag() {
+        longPressCellAt(0, 0); //插旗
+        longPressCellAt(0, 0); //拔旗
+        checkCellImage(0,0,0);
+    }
 
     //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
 

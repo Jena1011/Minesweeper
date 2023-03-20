@@ -206,8 +206,8 @@ public class MineSweeperTest {
         ((FakeCellCreator) creator).cells = cells;
         mineSweeper.startGame(creator);
 
-        mineSweeper.tapFlag(0,0);
-        mineSweeper.removeFlag(0,0);
+        mineSweeper.tapFlag(0,0); // 插旗
+        mineSweeper.tapFlag(0,0); // 拔旗
 
         ArrayList<String> verify = new ArrayList<>();
         verify.add("*");
