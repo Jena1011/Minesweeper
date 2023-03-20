@@ -218,7 +218,8 @@ public class MineSweeperTest {
     @Test
     public void loseGameTest(){
         ArrayList<String> init = new ArrayList<>();
-        init.add("*");
+        init.add("*|-");
+        init.add("-|-");
         ArrayList<Cell> cells = createCell(init);
 
         ICellCreator creator = new FakeCellCreator();
@@ -227,7 +228,7 @@ public class MineSweeperTest {
 
         mineSweeper.tap(0,0); // 踩到地雷
 
-        Assert.assertEquals(mineSweeper.status, MineSweeper.STATUS.DIE);
+        Assert.assertEquals(MineSweeper.STATUS.DIE, mineSweeper.status);
     }
 
     //單元測試：所有沒地雷的格子都打開，顯示 恭喜過關!
@@ -246,6 +247,6 @@ public class MineSweeperTest {
         mineSweeper.tap(0,1);
         mineSweeper.tap(1,1);
 
-        Assert.assertEquals(mineSweeper.status, MineSweeper.STATUS.WIN);
+        Assert.assertEquals(MineSweeper.STATUS.WIN,mineSweeper.status);
     }
 }

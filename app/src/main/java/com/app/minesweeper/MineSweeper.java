@@ -40,18 +40,13 @@ public class MineSweeper {
     // 按下方格
     public void tap(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
-        // 打開格子
         cell.status = Cell.STATUS.OPEN;
-        // 你輸了!
-        if (cell.isMine) this.status = STATUS.DIE;
-        // 你贏了!
-        for(Cell checkCell:cells){
-            if(!checkCell.isMine && checkCell.status == Cell.STATUS.CLOSE){
-                break;
-            }
-            this.status = STATUS.WIN;
-        }
-        // 打開周圍格子
+        checkGameResult(cell);
+        openCellsAround(xIndex, yIndex);
+    }
+
+    // 打開周圍格子
+    private void openCellsAround(int xIndex, int yIndex) {
         if (getCell(xIndex, yIndex).nextMines == 0) {
             for (int x = xIndex - 1; x <= xIndex + 1; x++) {
                 for (int y = yIndex - 1; y <= yIndex + 1; y++) {
@@ -72,6 +67,20 @@ public class MineSweeper {
                 }
             }
         }
+    }
+
+    // 檢查遊戲結果
+    private void checkGameResult(Cell cell) {
+        // 你贏了!
+        for (Cell checkCell : cells) {
+            if (!checkCell.isMine && checkCell.status == Cell.STATUS.CLOSE) {
+                break;
+            } else {
+                this.status = STATUS.WIN;
+            }
+        }
+        // 你輸了!
+        if (cell.isMine) this.status = STATUS.DIE;
     }
 
     // 由x,y座標取得目標方格物件
