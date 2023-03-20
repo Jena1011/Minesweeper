@@ -214,7 +214,7 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
-    //單元測試：點擊格子，若格子有炸彈，顯示 Game Over
+    //單元測試：點擊格子，若格子有炸彈，YOU LOSE
     @Test
     public void loseGameTest(){
         ArrayList<String> init = new ArrayList<>();
@@ -231,7 +231,7 @@ public class MineSweeperTest {
         Assert.assertEquals(MineSweeper.STATUS.DIE, mineSweeper.status);
     }
 
-    //單元測試：所有沒地雷的格子都打開，顯示 恭喜過關!
+    //單元測試：所有沒地雷的格子都打開，YOU WIN
     @Test
     public void winGameTest(){
         ArrayList<String> init = new ArrayList<>();
@@ -248,5 +248,22 @@ public class MineSweeperTest {
         mineSweeper.tap(1,1);
 
         Assert.assertEquals(MineSweeper.STATUS.WIN,mineSweeper.status);
+    }
+
+    //單元測試：沒地雷的格子尚未全部打開，遊戲繼續
+    @Test
+    public void testGameContinues(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*|-");
+        init.add("-|-");
+        ArrayList<Cell> cells = createCell(init);
+
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
+
+        mineSweeper.tap(1,0);
+        Assert.assertEquals(MineSweeper.STATUS.PLAYING,mineSweeper.status);
+
     }
 }

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Minesweeper</string>
     <string name="select_level">選擇等級</string>
+    <string name="gameOver">Game Over</string>
+    <string name="congratulation">Congratulation!</string>
 </resources>

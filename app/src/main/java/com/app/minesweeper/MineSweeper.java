@@ -72,15 +72,18 @@ public class MineSweeper {
     // 檢查遊戲結果
     private void checkGameResult(Cell cell) {
         // 你贏了!
-        for (Cell checkCell : cells) {
-            if (!checkCell.isMine && checkCell.status == Cell.STATUS.CLOSE) {
-                break;
-            } else {
-                this.status = STATUS.WIN;
-            }
-        }
+        if (allSafeCellsOpened(cells)) this.status = STATUS.WIN;
         // 你輸了!
         if (cell.isMine) this.status = STATUS.DIE;
+    }
+
+    private Boolean allSafeCellsOpened(ArrayList<Cell> cells) {
+        for (Cell checkCell : cells) {
+            if (!checkCell.isMine && checkCell.status == Cell.STATUS.CLOSE) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // 由x,y座標取得目標方格物件

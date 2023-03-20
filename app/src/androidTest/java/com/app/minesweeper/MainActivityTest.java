@@ -40,21 +40,21 @@ public class MainActivityTest {
     public ActivityScenarioRule<MainActivity> rule =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    //檢驗：一開始，顯示81個格子
+    //UI測試：一開始，顯示81個格子
     @Test
     public void loadCellTest() {
         onView((withId(R.id.rv_cells)))
                 .check(matches(hasChildCount(81)));
     }
 
-    //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
+    //UI測試：點擊格子，若周圍有炸彈，顯示炸彈數量
     @Test
     public void clickShowNextMines(){
         clickCellAt(1, 0);
         checkNumber(1,0,1);
     }
 
-    //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
+    //UI測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
     @Test
     public void clickShowNextNextMines() {
         clickCellAt(8, 8);
@@ -123,7 +123,7 @@ public class MainActivityTest {
         };
     }
 
-    //檢驗：長按格子，顯示旗子圖示
+    //UI測試：長按格子，顯示旗子圖示
     @Test
     public void longPressShowFlag() {
         longPressCellAt(0, 0);
@@ -180,7 +180,7 @@ public class MainActivityTest {
         frameLayout.perform(longClick());
     }
 
-    //檢驗：長按已插旗的格子，旗子圖示消失
+    //UI測試：長按已插旗的格子，旗子圖示消失
     @Test
     public void longPressRemoveFlag() {
         longPressCellAt(0, 0); //插旗
@@ -188,9 +188,24 @@ public class MainActivityTest {
         checkCellImage(0,0,0);
     }
 
-    //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
+    //UI測試：點擊格子，若格子有炸彈，顯示 Game Over
+    @Test
+    public void testClickMineGameOver(){
+        clickCellAt(0, 0);
+        checkGameStatus("Game Over");
+    }
 
+    //檢查遊戲狀態TextView文字內容
+    private void checkGameStatus(String gameStatus) {
+        onView((withId(R.id.tv_gameStatus)))
+                .check(matches(withText(containsString(gameStatus))));
+    }
 
-
+    //UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
+    @Test
+    public void testAllSafeCellOpenWin(){
+        clickCellAt(0, 0);
+        checkGameStatus("Congratulation!");
+    }
 
 }

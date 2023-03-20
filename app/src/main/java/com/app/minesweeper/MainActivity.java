@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements ICellTapListener {
 
     RecyclerView rv_cells;
+    TextView tv_gameStatus;
     MineSweeper mineSweeper;
     MainAdapter mainAdapter;
 
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         setContentView(R.layout.activity_main);
 
         rv_cells = findViewById(R.id.rv_cells);
+        tv_gameStatus = findViewById(R.id.tv_gameStatus);
         mineSweeper = new MineSweeper();
         int level = 9;
         CellCreator cellCreator = new CellCreator();
@@ -40,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
     public void onCellClick(Cell cell) {
         mineSweeper.tap(cell.getX(),cell.getY());
         mainAdapter.notifyDataSetChanged();
+        if(mineSweeper.status== MineSweeper.STATUS.DIE){
+            tv_gameStatus.setText(R.string.gameOver);
+        } else if(mineSweeper.status== MineSweeper.STATUS.WIN){
+            tv_gameStatus.setText(R.string.congratulation);
+        } else{
+            tv_gameStatus.setText("");
+        }
     }
 
     // 監聽長按格子的事件 (實作ICellTapListener方法)
@@ -48,5 +58,7 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         mineSweeper.tapFlag(cell.getX(),cell.getY());
         mainAdapter.notifyDataSetChanged();
     }
+
+
 
 }
