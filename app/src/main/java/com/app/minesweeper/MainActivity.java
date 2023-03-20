@@ -35,13 +35,14 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
 
     }
 
-    // 監聽點擊格子的事件
+    // 監聽點擊格子的事件 (實作ICellTapListener方法)
     @Override
     public void onCellClick(Cell cell) {
         mineSweeper.tap(cell.getX(),cell.getY());
         mainAdapter.notifyDataSetChanged();
     }
 
+    // 監聽長按格子的事件 (實作ICellTapListener方法)
     @Override
     public void onCellLongClick(Cell cell) {
         mineSweeper.tapFlag(cell.getX(),cell.getY());

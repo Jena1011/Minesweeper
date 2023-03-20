@@ -5,6 +5,11 @@ import java.util.ArrayList;
 public class MineSweeper {
 
     ArrayList<Cell> cells = new ArrayList<>();
+    public STATUS status = null;
+
+    public enum STATUS {
+        PLAYING, DIE, WIN,
+    }
 
     // 使開始遊戲
     public void startGame(ICellCreator cellCreator) {
@@ -12,6 +17,7 @@ public class MineSweeper {
         for (Cell cell : cells) {
             setCellNextStatus(cell);
         }
+        this.status = STATUS.PLAYING;
     }
 
     // 找出周遭地雷數量
@@ -34,7 +40,11 @@ public class MineSweeper {
     // 按下方格
     public void tap(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
+        // 打開格子
         cell.status = Cell.STATUS.OPEN;
+        // 踩到地雷，你輸了!
+        if (cell.isMine) this.status = STATUS.DIE;
+        // 打開周圍格子
         if (getCell(xIndex, yIndex).nextMines == 0) {
             for (int x = xIndex - 1; x <= xIndex + 1; x++) {
                 for (int y = yIndex - 1; y <= yIndex + 1; y++) {
@@ -69,14 +79,11 @@ public class MineSweeper {
         return cell;
     }
 
+    // 插旗拔旗
     public void tapFlag(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
-        cell.isFlagged = !cell.isFlagged; // 插旗拔旗
-
+        cell.isFlagged = !cell.isFlagged;
     }
 
-//    public void removeFlag(int xIndex, int yIndex) {
-//        Cell cell = getCell(xIndex, yIndex);
-//        if (cell.isFlagged) cell.isFlagged = false;
-//    }
+    // 輸了
 }

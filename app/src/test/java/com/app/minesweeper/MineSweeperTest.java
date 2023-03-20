@@ -15,7 +15,7 @@ public class MineSweeperTest {
         mineSweeper = new MineSweeper();
     }
 
-    //檢驗：開始遊戲
+    //單元測試：開始遊戲
     @Test
     public void startGame(){
         int level = 9;
@@ -26,7 +26,7 @@ public class MineSweeperTest {
         Assert.assertEquals(81,cells.size());
     }
 
-    //檢驗：點擊格子，變成打開狀態
+    //單元測試：點擊格子，變成打開狀態
     @Test
     public void tapCellShouldOpen(){
         ArrayList<String> init = new ArrayList<>();
@@ -99,7 +99,7 @@ public class MineSweeperTest {
         return cells;
     }
 
-    //檢驗：點擊格子，若周圍有炸彈，顯示炸彈數量
+    //單元測試：點擊格子，若周圍有炸彈，顯示炸彈數量
     @Test
     public void tapNumberShouldDisplay(){
         ArrayList<String> init = new ArrayList<>();
@@ -125,7 +125,7 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
-    //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
+    //單元測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
     @Test
     public void tapCellShouldDisplayNextMines(){
         ArrayList<String> init = new ArrayList<>();
@@ -151,7 +151,7 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
-    //檢驗：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子；若打開的格子周圍炸彈數量亦為0，再繼續打開周圍格子
+    //單元測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子；若打開的格子周圍炸彈數量亦為0，再繼續打開周圍格子
     @Test
     public void tapIfNextIs0ThenOpen(){
         ArrayList<String> init = new ArrayList<>();
@@ -177,7 +177,7 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
-    //檢驗：插旗子
+    //單元測試：插旗子
     @Test
     public void tagFlagTest(){
         ArrayList<String> init = new ArrayList<>();
@@ -195,7 +195,7 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
-    //檢驗：取消旗子
+    //單元測試：取消旗子
     @Test
     public void removeFlagTest(){
         ArrayList<String> init = new ArrayList<>();
@@ -214,8 +214,22 @@ public class MineSweeperTest {
         verifyDisplay(verify);
     }
 
+    //單元測試：點擊格子，若格子有炸彈，顯示 Game Over
+    @Test
+    public void loseGameTest(){
+        ArrayList<String> init = new ArrayList<>();
+        init.add("*");
+        ArrayList<Cell> cells = createCell(init);
 
-    //檢驗：點擊格子，若格子有炸彈，顯示 Game Over
+        ICellCreator creator = new FakeCellCreator();
+        ((FakeCellCreator) creator).cells = cells;
+        mineSweeper.startGame(creator);
 
+        mineSweeper.tap(0,0); // 踩到地雷
+
+        Assert.assertEquals(mineSweeper.status, MineSweeper.STATUS.DIE);
+    }
+
+    //單元測試：所有沒地雷的格子都打開，顯示 恭喜過關!
 
 }
