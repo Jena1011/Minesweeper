@@ -14,8 +14,9 @@
         android:layout_marginTop="15dp"
         android:text=""
         android:textStyle="bold"
-        android:textSize="26sp"
-        android:layout_gravity="center_horizontal"/>
+        android:textSize="30sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cells"
@@ -23,5 +24,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/bt_restart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/restart"
+        android:textSize="26sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#999"
+        />
 
 </LinearLayout>

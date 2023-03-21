@@ -7,9 +7,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.*;
@@ -20,7 +18,6 @@ import android.view.ViewParent;
 import android.widget.LinearLayout;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -31,9 +28,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
@@ -41,21 +35,21 @@ public class MainActivityTest {
     public ActivityScenarioRule<MainActivity> rule =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    //UI測試：一開始，顯示81個格子
+    // UI測試：一開始，顯示81個格子
     @Test
     public void loadCellTest() {
-        onView((withId(R.id.rv_cells)))
+        onView(withId(R.id.rv_cells))
                 .check(matches(hasChildCount(81)));
     }
 
-    //UI測試：點擊格子，若周圍有炸彈，顯示炸彈數量
+    // UI測試：點擊格子，若周圍有炸彈，顯示炸彈數量
     @Test
     public void clickShowNextMines(){
         clickCellAt(1, 0);
         checkNumber(1,0,1);
     }
 
-    //UI測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
+    // UI測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
     @Test
     public void clickShowNextNextMines() {
         clickCellAt(8, 8);
@@ -124,7 +118,7 @@ public class MainActivityTest {
         };
     }
 
-    //UI測試：長按格子，顯示旗子圖示
+    // UI測試：長按格子，顯示旗子圖示
     @Test
     public void longPressShowFlag() {
         longPressCellAt(0, 0);
@@ -181,7 +175,7 @@ public class MainActivityTest {
         frameLayout.perform(longClick());
     }
 
-    //UI測試：長按已插旗的格子，旗子圖示消失
+    // UI測試：長按已插旗的格子，旗子圖示消失
     @Test
     public void longPressRemoveFlag() {
         longPressCellAt(0, 0); //插旗
@@ -189,20 +183,20 @@ public class MainActivityTest {
         checkCellImage(0,0,0);
     }
 
-    //UI測試：點擊格子，若格子有炸彈，顯示 Game Over
+    // UI測試：點擊格子，若格子有炸彈，顯示 Game Over
     @Test
     public void testClickMineGameOver(){
         clickCellAt(0, 0);
         checkGameStatus("Game Over");
     }
 
-    //檢查遊戲狀態TextView文字內容
+    // 檢查遊戲狀態TextView文字內容
     private void checkGameStatus(String gameStatus) {
         onView((withId(R.id.tv_gameStatus)))
                 .check(matches(withText(containsString(gameStatus))));
     }
 
-    //UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
+    // UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
     @Test
     public void testAllSafeCellOpenWin(){
         clickCellAt(2, 1);
@@ -222,4 +216,20 @@ public class MainActivityTest {
         checkGameStatus("Congratulation!");
     }
 
+    // UI測試：按下 Restart 按鈕，重置畫面 ( 全部格子沒圖案 )
+    @Test
+    public void testRestartButton(){
+        longPressCellAt(5, 0);
+        clickCellAt(2, 1);
+        clickCellAt(8,0);
+
+        onView(withId(R.id.bt_restart))
+                .perform(click());
+
+        for(int y=0;y<9;y++){
+            for (int x=0; x<9; x++){
+                checkCellImage(x,y,0);
+            }
+        }
+    }
 }
