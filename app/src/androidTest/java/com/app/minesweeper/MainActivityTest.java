@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -204,7 +205,20 @@ public class MainActivityTest {
     //UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
     @Test
     public void testAllSafeCellOpenWin(){
-        clickCellAt(0, 0);
+        clickCellAt(2, 1);
+        clickCellAt(8,0);
+        clickCellAt(0,8);
+        clickCellAt(8,8);
+        clickCellAt(6,4);
+        clickCellAt(4,8);
+        clickCellAt(6,8);
+        clickCellAt(5,1);
+        clickCellAt(2,4);
+        clickCellAt(3,4);
+        clickCellAt(4,5);
+        clickCellAt(0,4);
+        clickCellAt(0,1);
+        clickCellAt(0,2);
         checkGameStatus("Congratulation!");
     }
 
