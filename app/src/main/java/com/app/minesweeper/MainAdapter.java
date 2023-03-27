@@ -16,6 +16,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private final ArrayList<Cell> localDataSet;
     ICellTapListener listener = null;
+    MineSweeper mineSweeper;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView tv_cell;
@@ -29,8 +30,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     }
 
-    public MainAdapter(ArrayList<Cell> dataSet) {
-        localDataSet = dataSet;
+//    public MainAdapter(ArrayList<Cell> dataSet) {
+//        localDataSet = dataSet;
+//    }
+
+    public MainAdapter(MineSweeper mineSweeper) {
+        this.localDataSet = mineSweeper.cells;
+        this.mineSweeper = mineSweeper;
     }
 
     @NonNull
@@ -84,6 +90,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             }
             return false;
         });
+
+        // game over 後不能點擊方格
+        if(mineSweeper.status== MineSweeper.STATUS.DIE){
+            viewHolder.itemView.setEnabled(false);
+        }
 
     }
 

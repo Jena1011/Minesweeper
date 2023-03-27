@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class CellCreatorTest {
 
-    //檢驗：創造符合level的格子數
+    // 單元測試：創造符合level的格子數
     @Test
     public void testCreateCell(){
         CellCreator cellCreator = createLevelCell(9);
@@ -17,7 +17,7 @@ public class CellCreatorTest {
         Assert.assertEquals(81,cells.size());
     }
 
-    //檢驗：一開始所有格子必須關閉
+    // 單元測試：一開始所有格子必須關閉
     @Test
     public void cell_should_close(){
         CellCreator cellCreator = new CellCreator();
@@ -32,7 +32,7 @@ public class CellCreatorTest {
         Assert.assertEquals(81,closeCount);
     }
 
-    //檢驗：15%的格子埋有地雷
+    // 單元測試：15%的格子埋有地雷
     @Test
     public void cell_should_have_15_percent_mine(){
         CellCreator cellCreator = new CellCreator();
