@@ -14,11 +14,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.*;
 
+import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -249,4 +251,28 @@ public class MainActivityTest {
             ).check(matches(isNotEnabled()));
         }
     }
+
+    // UI測試：旋轉畫面資料不重置
+    @Test
+    public void testRotateScreen(){
+        clickCellAt(0,1);
+        checkNumber(0,1,1);
+        rotate();
+        clickCellAt(0,1);
+        checkNumber(0,1,1);
+    }
+
+    // 螢幕旋轉
+    private void rotate() {
+        rule.getScenario().onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
+            @Override
+            public void perform(MainActivity activity) {
+                int currentOrientation = activity.getRequestedOrientation();
+                boolean isLandscape = (currentOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                int nextOrientation = isLandscape?ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                activity.setRequestedOrientation(nextOrientation);
+            }
+        });
+    }
+
 }

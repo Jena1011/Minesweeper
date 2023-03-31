@@ -1,14 +1,55 @@
 package com.app.minesweeper;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
-public class MineSweeper {
+public class MineSweeper implements Parcelable {
 
     ArrayList<Cell> cells = new ArrayList<>();
     public STATUS status = null;
 
+    public MineSweeper(){
+
+    }
+
+    protected MineSweeper(Parcel in) {
+        in.readTypedList(cells, Cell.CREATOR);
+        this.status = STATUS.valueOf(in.readString());
+
+        getClass().getClassLoader();
+        Thread.currentThread().getContextClassLoader();
+        Cell.class.getClassLoader();
+    }
+
+    public static final Creator<MineSweeper> CREATOR = new Creator<MineSweeper>() {
+        @Override
+        public MineSweeper createFromParcel(Parcel in) {
+            return new MineSweeper(in);
+        }
+
+        @Override
+        public MineSweeper[] newArray(int size) {
+            return new MineSweeper[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeTypedList(cells);
+        parcel.writeString(this.status.name());
+    }
+
     public enum STATUS {
-        PLAYING, DIE, WIN,
+        PLAYING, DIE, WIN
     }
 
     // 使開始遊戲

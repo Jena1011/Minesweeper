@@ -27,12 +27,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             tv_cell = view.findViewById(R.id.tv_cell);
             iv_cell = view.findViewById(R.id.iv_cell);
         }
-
     }
-
-//    public MainAdapter(ArrayList<Cell> dataSet) {
-//        localDataSet = dataSet;
-//    }
 
     public MainAdapter(MineSweeper mineSweeper) {
         this.localDataSet = mineSweeper.cells;
