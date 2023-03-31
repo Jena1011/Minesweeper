@@ -12,10 +12,12 @@ public class MineSweeper implements Parcelable {
     ArrayList<Cell> cells = new ArrayList<>();
     public STATUS status = null;
 
+////////////////// ↓ 實作 Parcelable 必要 ↓ //////////////////
     public MineSweeper(){
 
     }
 
+    // 讀取
     protected MineSweeper(Parcel in) {
         in.readTypedList(cells, Cell.CREATOR);
         this.status = STATUS.valueOf(in.readString());
@@ -42,11 +44,14 @@ public class MineSweeper implements Parcelable {
         return 0;
     }
 
+    // 寫入
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeTypedList(cells);
+        parcel.writeTypedList(cells); // 筆記：
         parcel.writeString(this.status.name());
     }
+
+////////////////// ↑ 實作 Parcelable 必要 ↑ /////////////////
 
     public enum STATUS {
         PLAYING, DIE, WIN
@@ -144,6 +149,4 @@ public class MineSweeper implements Parcelable {
         Cell cell = getCell(xIndex, yIndex);
         cell.isFlagged = !cell.isFlagged;
     }
-
-    // 輸了
 }

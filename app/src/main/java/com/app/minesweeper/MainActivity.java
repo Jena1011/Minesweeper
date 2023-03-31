@@ -2,6 +2,7 @@ package com.app.minesweeper;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,8 +20,7 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
     MineSweeper mineSweeper;
     MainAdapter mainAdapter;
     private final String KEY_MINESWEEPER = "mineSweeper_key";
-    private final String KEY_ISRECREATE = "isRecreate_key";
-    private final String KEY_GAMESTATUS = "gameStatus_key";
+    private final String KEY_IS_RECREATE = "isRecreate_key";
     boolean isRecreate = false;
 
     @Override
@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 狀態列不要顯示
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         rv_cells = findViewById(R.id.rv_cells);
         tv_gameStatus = findViewById(R.id.tv_gameStatus);
         bt_restart = findViewById(R.id.bt_restart);
 
         if(savedInstanceState!=null){
-            isRecreate = savedInstanceState.getBoolean(KEY_ISRECREATE, false);
+            isRecreate = savedInstanceState.getBoolean(KEY_IS_RECREATE, false);
         }
         if(savedInstanceState==null||isRecreate){
             startGame();
@@ -42,17 +44,17 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         }
 
         mainAdapter = new MainAdapter(mineSweeper);
-
         mainAdapter.setCellListener(this);
 
         rv_cells.setAdapter(mainAdapter);
         rv_cells.setLayoutManager(new GridLayoutManager(this, 9));
-        setStatusText();
 
         bt_restart.setOnClickListener(view -> {
             isRecreate = true;
             recreate();
         });
+
+        setStatusText();
     }
 
     // 開始遊戲
@@ -97,15 +99,17 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         mainAdapter.notifyItemChanged(y * 9 + x);
     }
 
+    // 資料暫存
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_ISRECREATE,isRecreate);
+        outState.putBoolean(KEY_IS_RECREATE,isRecreate);
         if (mineSweeper != null) {
-            outState.putParcelable(KEY_MINESWEEPER, mineSweeper);
+            outState.putParcelable(KEY_MINESWEEPER, mineSweeper); // 傳送物件，該物件類要實作 Parcelable 介面
         }
         if(tv_gameStatus!=null){
-            outState.putString(KEY_GAMESTATUS,tv_gameStatus.getText().toString());
+            String KEY_GAME_STATUS = "gameStatus_key";
+            outState.putString(KEY_GAME_STATUS,tv_gameStatus.getText().toString());
         }
     }
 }

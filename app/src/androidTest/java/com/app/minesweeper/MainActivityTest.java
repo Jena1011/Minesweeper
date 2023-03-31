@@ -264,15 +264,11 @@ public class MainActivityTest {
 
     // 螢幕旋轉
     private void rotate() {
-        rule.getScenario().onActivity(new ActivityScenario.ActivityAction<MainActivity>() {
-            @Override
-            public void perform(MainActivity activity) {
-                int currentOrientation = activity.getRequestedOrientation();
-                boolean isLandscape = (currentOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                int nextOrientation = isLandscape?ActivityInfo.SCREEN_ORIENTATION_PORTRAIT:ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                activity.setRequestedOrientation(nextOrientation);
-            }
-        });
+        rule.getScenario().onActivity(activity -> activity.setRequestedOrientation(
+                activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ?
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT :
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        ));
     }
 
 }
