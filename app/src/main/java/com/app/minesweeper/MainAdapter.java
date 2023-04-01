@@ -93,9 +93,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     }
 
-    /* 筆記：MainAdapter本身並不知道使用者點的是哪個格子，所以要透過ICellTapListener這個介面將使用者點擊的格子傳遞給MainActivity。
-        因此，在MainActivity中，需要實作ICellTapListener這個介面，以便能夠接收來自MainAdapter的使用者點擊事件。
-    */
     void setCellListener(ICellTapListener listener){
         this.listener = listener;
     }
@@ -104,4 +101,5 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public int getItemCount() {
         return localDataSet.size();
     }
+
 }

@@ -10,11 +10,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParentIndex;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.*;
 
 import android.content.pm.ActivityInfo;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -64,120 +66,11 @@ public class MainActivityTest {
         checkNumber(7, 8, 1);
     }
 
-    // 檢查某方格中的數字
-    private void checkNumber(int x, int y, int number) {
-        int position = y * 9 + x;
-        ViewInteraction textView =
-            onView(
-                allOf(
-                        withId(R.id.tv_cell),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.rv_cells),
-                                        position
-                                ),
-                                0
-                        ),
-                        isDisplayed()
-                )
-            );
-        textView.check(matches(withText(containsString(String.valueOf(number)))));
-    }
-
-    // 點擊某座標的方格
-    private void clickCellAt(int x, int y) {
-        int position =  y * 9 + x;
-        ViewInteraction frameLayout = onView(
-                allOf(
-                        childAtPosition(
-                                allOf(
-                                        withId(R.id.rv_cells),
-                                        childAtPosition(
-                                                instanceOf(LinearLayout.class),
-                                                1
-                                        )
-                                ),
-                                position
-                        ),
-                        isDisplayed()
-                )
-        );
-        frameLayout.perform(click());
-    }
-
-    // 返回一個Matcher，用於查找父元素中指定位置的子元素
-    private Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position){
-        return new TypeSafeMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && ((ViewGroup) parent).getChildAt(position).equals(view);
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position "+ position + " in parent");
-                parentMatcher.describeTo(description);
-            }
-        };
-    }
-
     // UI測試：長按格子，顯示旗子圖示
     @Test
     public void longPressShowFlag() {
         longPressCellAt(0, 0);
         checkCellImage(0,0,R.drawable.flag);
-    }
-
-    // 檢查方格中圖片是否符合預期
-    private void checkCellImage(int x, int y, int expectedDrawableId) {
-        int position = y * 9 + x;
-        ViewInteraction item =
-                onView(
-                        allOf(
-                                withId(R.id.iv_cell),
-                                childAtPosition(
-                                        childAtPosition(
-                                                withId(R.id.rv_cells),
-                                                position
-                                        ),
-                                        1
-                                ),
-                                isDisplayed()
-                        )
-                );
-        if (expectedDrawableId != 0){
-            item.check(matches(withDrawable(expectedDrawableId)));
-        } else {
-            item.check(doesNotExist());
-        }
-    }
-
-    // 返回DrawableMatcher物件，用於比對 ImageView 是否正確顯示 Drawable 圖片
-    private Matcher<? super View> withDrawable(int resourceId) {
-        return new DrawableMatcher(resourceId);
-    }
-
-    // 長按某座標的方格
-    private void longPressCellAt(int x, int y) {
-        int position =  y * 9 + x;
-        ViewInteraction frameLayout = onView(
-                allOf(
-                        childAtPosition(
-                                allOf(
-                                        withId(R.id.rv_cells),
-                                        childAtPosition(
-                                                instanceOf(LinearLayout.class),
-                                                1
-                                        )
-                                ),
-                                position
-                        ),
-                        isDisplayed()
-                )
-        );
-        frameLayout.perform(longClick());
     }
 
     // UI測試：長按已插旗的格子，旗子圖示消失
@@ -193,12 +86,6 @@ public class MainActivityTest {
     public void testClickMineGameOver(){
         clickCellAt(0, 0);
         checkGameStatus("Game Over");
-    }
-
-    // 檢查遊戲狀態TextView文字內容
-    private void checkGameStatus(String gameStatus) {
-        onView((withId(R.id.tv_gameStatus)))
-                .check(matches(withText(containsString(gameStatus))));
     }
 
     // UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
@@ -258,17 +145,148 @@ public class MainActivityTest {
         clickCellAt(0,1);
         checkNumber(0,1,1);
         rotate();
-        clickCellAt(0,1);
         checkNumber(0,1,1);
+    }
+
+
+
+    // 檢查某方格中的數字
+    private void checkNumber(int x, int y, int number) {
+        int position = y * 9 + x;
+        ViewInteraction textView =
+                onView(
+                        allOf(
+                                withId(R.id.tv_cell),
+                                childOf(
+                                        childAtPosition(
+                                                withId(R.id.rv_cells),
+                                                position
+                                        )
+                                ),
+                                isDisplayed()
+                        )
+                );
+        textView.check(matches(withText(containsString(String.valueOf(number)))));
+    }
+
+    // 點擊某座標的方格
+    private void clickCellAt(int x, int y) {
+        int position =  y * 9 + x;
+        ViewInteraction frameLayout = onView(
+                allOf(
+                        childAtPosition(
+                                allOf(
+                                        withId(R.id.rv_cells),
+                                        childAtPosition(
+                                                instanceOf(LinearLayout.class),
+                                                1
+                                        )
+                                ),
+                                position
+                        ),
+                        isDisplayed()
+                )
+        );
+        frameLayout.perform(click());
+    }
+
+    // 返回一個Matcher，用於查找父元素中指定位置的子元素
+    private Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position){
+        return new TypeSafeMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && ((ViewGroup) parent).getChildAt(position).equals(view);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position "+ position + " in parent");
+                parentMatcher.describeTo(description);
+            }
+        };
+    }
+
+    // 返回一個Matcher，用於查找父元素中的子元素
+    private Matcher<View> childOf(final Matcher<View> parentMatcher){
+        return new TypeSafeMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child in parent");
+                parentMatcher.describeTo(description);
+            }
+        };
+    }
+
+    // 檢查方格中圖片是否符合預期
+    private void checkCellImage(int x, int y, int expectedDrawableId) {
+        int position = y * 9 + x;
+        ViewInteraction item =
+                onView(
+                        allOf(
+                                withId(R.id.iv_cell),
+                                childAtPosition(
+                                        childAtPosition(
+                                                withId(R.id.rv_cells),
+                                                position
+                                        ),
+                                        1
+                                ),
+                                isDisplayed()
+                        )
+                );
+        if (expectedDrawableId != 0){
+            item.check(matches(withDrawable(expectedDrawableId)));
+        } else {
+            item.check(doesNotExist());
+        }
+    }
+
+    // 返回DrawableMatcher物件，用於比對 ImageView 是否正確顯示 Drawable 圖片
+    private Matcher<? super View> withDrawable(int resourceId) {
+        return new DrawableMatcher(resourceId);
+    }
+
+    // 長按某座標的方格
+    private void longPressCellAt(int x, int y) {
+        int position =  y * 9 + x;
+        ViewInteraction frameLayout = onView(
+                allOf(
+                        childAtPosition(
+                                allOf(
+                                        withId(R.id.rv_cells),
+                                        childAtPosition(
+                                                instanceOf(LinearLayout.class),
+                                                1
+                                        )
+                                ),
+                                position
+                        ),
+                        isDisplayed()
+                )
+        );
+        frameLayout.perform(longClick());
+    }
+
+    // 檢查遊戲狀態TextView文字內容
+    private void checkGameStatus(String gameStatus) {
+        onView((withId(R.id.tv_gameStatus)))
+                .check(matches(withText(containsString(gameStatus))));
     }
 
     // 螢幕旋轉
     private void rotate() {
         rule.getScenario().onActivity(activity -> activity.setRequestedOrientation(
                 activity.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ?
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT :
-                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT :
+                        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         ));
     }
-
 }

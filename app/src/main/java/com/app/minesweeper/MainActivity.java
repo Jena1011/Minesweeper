@@ -2,8 +2,11 @@ package com.app.minesweeper;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,49 +23,63 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
     MineSweeper mineSweeper;
     MainAdapter mainAdapter;
     private final String KEY_MINESWEEPER = "mineSweeper_key";
-    private final String KEY_IS_RECREATE = "isRecreate_key";
-    boolean isRecreate = false;
+    private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 狀態列不要顯示
+        // 隱藏狀態列
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         rv_cells = findViewById(R.id.rv_cells);
         tv_gameStatus = findViewById(R.id.tv_gameStatus);
         bt_restart = findViewById(R.id.bt_restart);
 
-        if(savedInstanceState!=null){
-            isRecreate = savedInstanceState.getBoolean(KEY_IS_RECREATE, false);
-        }
-        if(savedInstanceState==null||isRecreate){
+        if(savedInstanceState==null){
             startGame();
         }else {
             mineSweeper = savedInstanceState.getParcelable(KEY_MINESWEEPER);
         }
 
-        mainAdapter = new MainAdapter(mineSweeper);
-        mainAdapter.setCellListener(this);
+        setRVAdapter(mineSweeper);
 
-        rv_cells.setAdapter(mainAdapter);
         rv_cells.setLayoutManager(new GridLayoutManager(this, 9));
 
-        bt_restart.setOnClickListener(view -> {
-            isRecreate = true;
-            recreate();
-        });
+        bt_restart.setOnClickListener(view -> resetGame());
+        setStatusText();
+    }
 
+    // rv 設定 mainAdapter
+    private void setRVAdapter(MineSweeper mineSweeper) {
+        mainAdapter = new MainAdapter(mineSweeper);
+        mainAdapter.setCellListener(this);
+        rv_cells.setAdapter(mainAdapter);
+    }
+
+    // 重新開始
+    private void resetGame() {
+        if(mineSweeper!=null){
+            mineSweeper.cells.clear();
+            CellCreator cellCreator = new CellCreator();
+            cellCreator.level= 9;
+            mineSweeper.startGame(cellCreator);
+//            mineSweeper.startGame(new CellCreator(9));
+        }
+        if(mainAdapter!=null){
+            setRVAdapter(mineSweeper);
+        }
+        mainAdapter.notifyDataSetChanged();
         setStatusText();
     }
 
     // 開始遊戲
     private void startGame() {
         mineSweeper = new MineSweeper();
-        int level = 9;
         CellCreator cellCreator = new CellCreator();
-        cellCreator.level = level;
+        cellCreator.level= 9;
+        mineSweeper.startGame(cellCreator);
+//            mineSweeper.startGame(new CellCreator(9));
         mineSweeper.startGame(cellCreator);
     }
 
@@ -103,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_IS_RECREATE,isRecreate);
         if (mineSweeper != null) {
             outState.putParcelable(KEY_MINESWEEPER, mineSweeper); // 傳送物件，該物件類要實作 Parcelable 介面
         }

@@ -264,6 +264,5 @@ public class MineSweeperTest {
 
         mineSweeper.tap(1,0);
         Assert.assertEquals(MineSweeper.STATUS.PLAYING,mineSweeper.status);
-
     }
 }

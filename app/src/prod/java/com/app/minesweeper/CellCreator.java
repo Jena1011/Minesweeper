@@ -6,6 +6,14 @@ import java.util.HashSet;
 public class CellCreator implements ICellCreator {
     public int level = 9; // 難度等級
 
+    CellCreator(int level){
+        this.level = level;
+    }
+
+    CellCreator(){
+
+    }
+
     // 創造格子
     @Override
     public ArrayList<Cell> create() {
