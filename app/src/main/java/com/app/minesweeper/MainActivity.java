@@ -14,27 +14,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.minesweeper.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity implements ICellTapListener {
 
-    RecyclerView rv_cells;
-    TextView tv_gameStatus;
-    Button bt_restart;
+    // TODO: 把遊戲內容搬運到 GameFragment
     MineSweeper mineSweeper;
     MainAdapter mainAdapter;
     private final String KEY_MINESWEEPER = "mineSweeper_key";
+    private ActivityMainBinding binding;
     private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_main);
 
         // 隱藏狀態列
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        rv_cells = findViewById(R.id.rv_cells);
-        tv_gameStatus = findViewById(R.id.tv_gameStatus);
-        bt_restart = findViewById(R.id.bt_restart);
 
         if(savedInstanceState==null){
             startGame();
@@ -44,9 +43,9 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
 
         setRVAdapter(mineSweeper);
 
-        rv_cells.setLayoutManager(new GridLayoutManager(this, 9));
+        binding.rvCells.setLayoutManager(new GridLayoutManager(this, 9));
 
-        bt_restart.setOnClickListener(view -> resetGame());
+        binding.btRestart.setOnClickListener(view -> resetGame());
         setStatusText();
     }
 
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
     private void setRVAdapter(MineSweeper mineSweeper) {
         mainAdapter = new MainAdapter(mineSweeper);
         mainAdapter.setCellListener(this);
-        rv_cells.setAdapter(mainAdapter);
+        binding.rvCells.setAdapter(mainAdapter);
     }
 
     // 重新開始
@@ -68,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         }
         if(mainAdapter!=null){
             setRVAdapter(mineSweeper);
+            mainAdapter.notifyDataSetChanged();
         }
-        mainAdapter.notifyDataSetChanged();
         setStatusText();
     }
 
@@ -97,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
     // 設定狀態文字
     private void setStatusText() {
         if (mineSweeper.status == MineSweeper.STATUS.DIE) {
-            tv_gameStatus.setText(R.string.gameOver);
-            tv_gameStatus.setTextColor(Color.rgb(255, 0, 0));
+            binding.tvGameStatus.setText(R.string.gameOver);
+            binding.tvGameStatus.setTextColor(Color.rgb(255, 0, 0));
         } else if (mineSweeper.status == MineSweeper.STATUS.WIN) {
-            tv_gameStatus.setText(R.string.congratulation);
-            tv_gameStatus.setTextColor(Color.rgb(0, 150, 0));
+            binding.tvGameStatus.setText(R.string.congratulation);
+            binding.tvGameStatus.setTextColor(Color.rgb(0, 150, 0));
         } else {
-            tv_gameStatus.setText("");
+            binding.tvGameStatus.setText("");
         }
     }
 
@@ -123,9 +122,7 @@ public class MainActivity extends AppCompatActivity implements ICellTapListener 
         if (mineSweeper != null) {
             outState.putParcelable(KEY_MINESWEEPER, mineSweeper); // 傳送物件，該物件類要實作 Parcelable 介面
         }
-        if(tv_gameStatus!=null){
-            String KEY_GAME_STATUS = "gameStatus_key";
-            outState.putString(KEY_GAME_STATUS,tv_gameStatus.getText().toString());
-        }
+        String KEY_GAME_STATUS = "gameStatus_key";
+        outState.putString(KEY_GAME_STATUS,binding.tvGameStatus.getText().toString());
     }
 }
