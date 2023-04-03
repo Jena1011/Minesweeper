@@ -90,7 +90,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         if(mineSweeper.status== MineSweeper.STATUS.DIE){
             viewHolder.itemView.setEnabled(false);
         }
-
     }
 
     void setCellListener(ICellTapListener listener){

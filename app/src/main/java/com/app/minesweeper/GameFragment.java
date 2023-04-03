@@ -9,12 +9,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.app.minesweeper.databinding.FragmentGameBinding;
 import com.app.minesweeper.databinding.FragmentMenuBinding;
+
+import java.util.Objects;
 
 public class GameFragment extends Fragment implements ICellTapListener{
 
@@ -23,6 +27,7 @@ public class GameFragment extends Fragment implements ICellTapListener{
     private MineSweeper mineSweeper;
     private MainAdapter mainAdapter;
     private final String KEY_MINESWEEPER = "mineSweeper_key";
+    private final String GAME_FRAGMENT = "GameFragment";
 
     public GameFragment() {
         // Required empty public constructor
@@ -59,6 +64,13 @@ public class GameFragment extends Fragment implements ICellTapListener{
 
         binding.btRestart.setOnClickListener(view -> resetGame());
         setStatusText();
+
+        Log.d(GAME_FRAGMENT+"1", String.valueOf(mineSweeper.cells.size()));
+        Log.d(GAME_FRAGMENT+"2", String.valueOf(mainAdapter.mineSweeper.cells.size()));
+        Log.d(GAME_FRAGMENT+"3", String.valueOf(mainAdapter.getItemCount()));
+        Log.d(GAME_FRAGMENT+"4", String.valueOf(binding.rvCells.getChildCount()));
+        Log.d(GAME_FRAGMENT+"5", String.valueOf(Objects.requireNonNull(binding.rvCells.getAdapter()).getItemCount()));
+
     }
 
     // 開始遊戲
