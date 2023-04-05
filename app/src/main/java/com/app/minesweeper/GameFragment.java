@@ -9,16 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.app.minesweeper.databinding.FragmentGameBinding;
-import com.app.minesweeper.databinding.FragmentMenuBinding;
-
-import java.util.Objects;
 
 public class GameFragment extends Fragment implements ICellTapListener{
 
@@ -26,12 +21,8 @@ public class GameFragment extends Fragment implements ICellTapListener{
 
     private MineSweeper mineSweeper;
     private MainAdapter mainAdapter;
+    private RecyclerView rvCells;
     private final String KEY_MINESWEEPER = "mineSweeper_key";
-    private final String GAME_FRAGMENT = "GameFragment";
-
-    public GameFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,38 +31,32 @@ public class GameFragment extends Fragment implements ICellTapListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGameBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+
+       if(savedInstanceState==null){
+            startGame();
+        }else {
+            mineSweeper = savedInstanceState.getParcelable(KEY_MINESWEEPER);
+        }
+
+        View view = binding.getRoot();
+        rvCells = view.findViewById(R.id.rv_cells);
+        setMainAdapter(mineSweeper);
+        rvCells.setLayoutManager(new GridLayoutManager(view.getContext(), 9));
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View gameView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(gameView, savedInstanceState);
 
-        binding = FragmentGameBinding.bind(gameView); // 要用靜態方法綁定
-
-        if(savedInstanceState==null){
-            startGame();
-        }else {
-            mineSweeper = savedInstanceState.getParcelable(KEY_MINESWEEPER);
-        }
-
-        setRVAdapter(mineSweeper);
-
-        binding.rvCells.setLayoutManager(new GridLayoutManager(this.requireContext(), 9));
-
         binding.btRestart.setOnClickListener(view -> resetGame());
         setStatusText();
-
-        Log.d(GAME_FRAGMENT+"1", String.valueOf(mineSweeper.cells.size()));
-        Log.d(GAME_FRAGMENT+"2", String.valueOf(mainAdapter.mineSweeper.cells.size()));
-        Log.d(GAME_FRAGMENT+"3", String.valueOf(mainAdapter.getItemCount()));
-        Log.d(GAME_FRAGMENT+"4", String.valueOf(binding.rvCells.getChildCount()));
-        Log.d(GAME_FRAGMENT+"5", String.valueOf(Objects.requireNonNull(binding.rvCells.getAdapter()).getItemCount()));
-
     }
+
 
     // 開始遊戲
     private void startGame() {
@@ -84,10 +69,10 @@ public class GameFragment extends Fragment implements ICellTapListener{
     }
 
     // rv 設定 mainAdapter
-    private void setRVAdapter(MineSweeper mineSweeper) {
+    private void setMainAdapter(MineSweeper mineSweeper) {
         mainAdapter = new MainAdapter(mineSweeper);
         mainAdapter.setCellListener(this);
-        binding.rvCells.setAdapter(mainAdapter);
+        rvCells.setAdapter(mainAdapter);
     }
 
     // 重新開始
@@ -100,7 +85,7 @@ public class GameFragment extends Fragment implements ICellTapListener{
 //            mineSweeper.startGame(new CellCreator(9));
         }
         if(mainAdapter!=null){
-            setRVAdapter(mineSweeper);
+            setMainAdapter(mineSweeper);
             mainAdapter.notifyDataSetChanged();
         }
         setStatusText();
