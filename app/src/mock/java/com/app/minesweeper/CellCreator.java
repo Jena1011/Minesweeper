@@ -29,9 +29,9 @@ public class CellCreator implements ICellCreator {
             for(int x=0; x<ylist.length; x++){
                 Cell cell = new Cell(x,y);
                 String value = ylist[x];
-                cell.status = Cell.STATUS.OPEN;
+                cell.status = CellStatus.OPEN;
                 if(value.equals("-")||value.equals("*")){
-                    cell.status = Cell.STATUS.CLOSE;
+                    cell.status = CellStatus.CLOSE;
                 }
                 if(value.equals("*")){
                     cell.isMine = true;

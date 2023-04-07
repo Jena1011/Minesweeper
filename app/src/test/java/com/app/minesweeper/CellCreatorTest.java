@@ -25,7 +25,7 @@ public class CellCreatorTest {
         ArrayList<Cell> cells = cellCreator.create();
        int closeCount = 0;
         for(Cell cell:cells){
-            if(cell.status == Cell.STATUS.CLOSE){
+            if(cell.status == CellStatus.CLOSE){
                 closeCount++;
             }
         }

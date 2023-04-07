@@ -54,10 +54,10 @@ public class MineSweeperTest {
                 assert findCell != null;
                 switch (value){
                     case "-":
-                        Assert.assertEquals("$x, $y", Cell.STATUS.CLOSE, findCell.status);
+                        Assert.assertEquals("$x, $y", CellStatus.CLOSE, findCell.status);
                         break;
                     case " ":
-                        Assert.assertEquals("$x, $y", Cell.STATUS.OPEN, findCell.status);
+                        Assert.assertEquals("$x, $y", CellStatus.OPEN, findCell.status);
                         break;
                     case  "*":
                         Assert.assertTrue("$x, $y", findCell.isMine);
@@ -66,7 +66,7 @@ public class MineSweeperTest {
                         Assert.assertTrue("$x, $y", findCell.isFlagged);
                         break;
                     default:
-                        Assert.assertEquals("$x, $y", Cell.STATUS.OPEN, findCell.status);
+                        Assert.assertEquals("$x, $y", CellStatus.OPEN, findCell.status);
                         Assert.assertEquals("$x, $y", value, Integer.toString(findCell.nextMines));
 
                 }
@@ -82,9 +82,9 @@ public class MineSweeperTest {
             for(int x=0; x<ylist.length; x++){
                 Cell cell = new Cell(x,y);
                 String value = ylist[x];
-                cell.status = Cell.STATUS.OPEN;
+                cell.status = CellStatus.OPEN;
                 if(value.equals("-")||value.equals("*")){
-                    cell.status = Cell.STATUS.CLOSE;
+                    cell.status = CellStatus.CLOSE;
                 }
                 if(value.equals("*")){
                     cell.isMine = true;

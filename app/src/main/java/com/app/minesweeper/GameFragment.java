@@ -18,7 +18,6 @@ import com.app.minesweeper.databinding.FragmentGameBinding;
 public class GameFragment extends Fragment implements ICellTapListener{
 
     private FragmentGameBinding binding = null ;
-
     private MineSweeper mineSweeper;
     private MainAdapter mainAdapter;
     private RecyclerView rvCells;
@@ -27,7 +26,6 @@ public class GameFragment extends Fragment implements ICellTapListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -107,9 +105,7 @@ public class GameFragment extends Fragment implements ICellTapListener{
     // 監聽點擊格子的事件 (實作ICellTapListener方法)
     @Override
     public void onCellClick(Cell cell) {
-        int x = cell.getX();
-        int y = cell.getY();
-        mineSweeper.tap(x, y);
+        mineSweeper.tap(cell.x, cell.y);
         mainAdapter.notifyItemRangeChanged(0, 81, Cell.class);
 
         setStatusText();
@@ -118,8 +114,8 @@ public class GameFragment extends Fragment implements ICellTapListener{
     // 監聽長按格子的事件 (實作ICellTapListener方法)
     @Override
     public void onCellLongClick(Cell cell) {
-        int x = cell.getX();
-        int y = cell.getY();
+        int x = cell.x;
+        int y = cell.y;
         mineSweeper.tapFlag(x, y);
         mainAdapter.notifyItemChanged(y * 9 + x);
     }

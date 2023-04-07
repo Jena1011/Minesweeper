@@ -63,12 +63,12 @@ public class MineSweeper implements Parcelable {
 
     // 找出周遭地雷數量
     private void setCellNextStatus(Cell cell) {
-        for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
-            for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
+        for (int x = cell.x - 1; x <= cell.x + 1; x++) {
+            for (int y = cell.y - 1; y <= cell.y + 1; y++) {
                 if (getCell(x, y).status == null) {
                     continue;
                 }
-                if (cell.getX() == x && cell.getY() == y) {
+                if (cell.x == x && cell.y == y) {
                     continue;
                 }
                 if (getCell(x, y).isMine) {
@@ -81,8 +81,8 @@ public class MineSweeper implements Parcelable {
     // 按下方格
     public void tap(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
-        if(cell.status == Cell.STATUS.OPEN) return;
-        cell.status = Cell.STATUS.OPEN;
+        if(cell.status == CellStatus.OPEN) return;
+        cell.status = CellStatus.OPEN;
         checkGameResult(cell);
         openCellsAround(xIndex, yIndex);
     }
@@ -99,11 +99,11 @@ public class MineSweeper implements Parcelable {
                     if (x == xIndex && y == yIndex) {
                         continue;
                     }
-                    if (!nextCell.isMine && nextCell.status == Cell.STATUS.CLOSE) {
+                    if (!nextCell.isMine && nextCell.status == CellStatus.CLOSE) {
                         if (nextCell.nextMines == 0) {
                             tap(x, y);
                         } else {
-                            nextCell.status = Cell.STATUS.OPEN;
+                            nextCell.status = CellStatus.OPEN;
                         }
                     }
                 }
@@ -121,7 +121,7 @@ public class MineSweeper implements Parcelable {
 
     private Boolean allSafeCellsOpened(ArrayList<Cell> cells) {
         for (Cell checkCell : cells) {
-            if (!checkCell.isMine && checkCell.status == Cell.STATUS.CLOSE) {
+            if (!checkCell.isMine && checkCell.status == CellStatus.CLOSE) {
                 return false;
             }
         }
@@ -132,7 +132,7 @@ public class MineSweeper implements Parcelable {
     public Cell getCell(int x, int y) {
         Cell cell = new Cell();
         for (Cell c : cells) {
-            if (c.getX() == x && c.getY() == y) {
+            if (c.x == x && c.y == y) {
                 cell = c;
                 break;
             }

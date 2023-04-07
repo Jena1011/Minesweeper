@@ -49,7 +49,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         viewHolder.iv_cell.setVisibility(View.GONE);
         Cell cell = localDataSet.get(position);
         // 方格未開啟
-        if (cell.status == Cell.STATUS.CLOSE) {
+        if (cell.status == CellStatus.CLOSE) {
             viewHolder.itemView.setBackgroundColor(Color.LTGRAY);
             if(cell.isFlagged){
                 viewHolder.iv_cell.setImageResource(R.drawable.flag);
@@ -57,7 +57,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             }
         }
         // 方格開啟
-        if (cell.status == Cell.STATUS.OPEN) {
+        if (cell.status == CellStatus.OPEN) {
             viewHolder.itemView.setBackgroundColor(Color.WHITE);
             // 方格中有地雷
             if (cell.isMine) {

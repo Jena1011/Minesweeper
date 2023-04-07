@@ -1,15 +1,10 @@
 package com.app.minesweeper;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
 
-import com.app.minesweeper.databinding.ActivityMainBinding;
-
-// TODO:修復畫面未隨手機旋轉問題
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "jena_ma";
