@@ -24,7 +24,7 @@ public class CellCreator implements ICellCreator {
         for (int y = 0; y < level; y++) {
             for (int x = 0; x < level; x++) {
                 Cell cell = new Cell(x,y);
-                cell.status = Cell.STATUS.CLOSE;
+                cell.status = CellStatus.CLOSE;
                 if (indexSet.contains( y * 9 + x + 1 )) {
                     cell.isMine = true;
                 }

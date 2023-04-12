@@ -5,10 +5,15 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+/**
+ * 包含以下整頁式 Fragment:
+ * MenuFragment
+ * GameFragment
+ */
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "jena_ma";
-//    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

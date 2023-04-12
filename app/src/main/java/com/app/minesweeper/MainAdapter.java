@@ -12,16 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * 一個 RecyclerView 的 Adapter，用於顯示地雷方格
+ * 該 Adapter 負責處理每個方格的狀態和外觀，以及將點擊事件傳遞到 GameFragment。
+ * 它還通過檢查遊戲的當前狀態來防止在遊戲結束後點擊方塊。
+*/
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
-    private final ArrayList<Cell> localDataSet;
-    ICellTapListener listener = null;
-    MineSweeper mineSweeper;
+    private final ArrayList<Cell> localDataSet; // 儲存方格資訊的陣列
+    ICellTapListener listener = null; // 方格點擊監聽器
+    MineSweeper mineSweeper; // 踩地雷遊戲主體
 
+    /**
+     * 該ViewHolder表示RecyclerView中的單個項目，即單個地雷方塊。
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tv_cell;
-        private final ImageView iv_cell;
+        private final TextView tv_cell; // 方格內的文字
+        private final ImageView iv_cell; // 方格內的圖片
 
+        // 構造函數，初始化視圖元素
         public ViewHolder(View view) {
             super(view);
             tv_cell = view.findViewById(R.id.tv_cell);
@@ -29,16 +38,24 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         }
     }
 
+    /**
+     * 構造函數，初始化本地數據集和 Minesweeper 物件。
+     * @param mineSweeper Minesweeper 物件，它包含地雷方塊的數據。
+     */
     public MainAdapter(MineSweeper mineSweeper) {
         this.localDataSet = mineSweeper.cells;
         this.mineSweeper = mineSweeper;
     }
 
+    /**
+     * 創建ViewHolder對象，並將cell_item佈局設置為項目的佈局。
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.cell_item, viewGroup, false);
+        view.setEnabled(viewGroup.isEnabled());
         return new ViewHolder(view);
     }
 
@@ -87,7 +104,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         });
 
         // game over 後不能點擊方格
-        if(mineSweeper.status== MineSweeper.STATUS.DIE){
+        if(mineSweeper.status== GameStatus.DIE){
             viewHolder.itemView.setEnabled(false);
         }
     }

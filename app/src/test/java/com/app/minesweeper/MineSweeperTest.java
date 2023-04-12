@@ -33,8 +33,8 @@ public class MineSweeperTest {
         init.add("-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(0,0);
@@ -110,8 +110,8 @@ public class MineSweeperTest {
         init.add("-|-|*|-|-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(0,1);
@@ -136,8 +136,8 @@ public class MineSweeperTest {
         init.add("-|-|*|-|-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(0,4);
@@ -162,8 +162,8 @@ public class MineSweeperTest {
         init.add("-|-|*|-|-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(3,2);
@@ -184,8 +184,8 @@ public class MineSweeperTest {
         init.add("*");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tapFlag(0,0);
@@ -202,8 +202,8 @@ public class MineSweeperTest {
         init.add("*");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tapFlag(0,0); // 插旗
@@ -222,13 +222,13 @@ public class MineSweeperTest {
         init.add("-|-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(0,0); // 踩到地雷
 
-        Assert.assertEquals(MineSweeper.STATUS.DIE, mineSweeper.status);
+        Assert.assertEquals(GameStatus.DIE, mineSweeper.status);
     }
 
     //單元測試：所有沒地雷的格子都打開，YOU WIN
@@ -239,15 +239,15 @@ public class MineSweeperTest {
         init.add("-|-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(1,0);
         mineSweeper.tap(0,1);
         mineSweeper.tap(1,1);
 
-        Assert.assertEquals(MineSweeper.STATUS.WIN,mineSweeper.status);
+        Assert.assertEquals(GameStatus.WIN,mineSweeper.status);
     }
 
     //單元測試：沒地雷的格子尚未全部打開，遊戲繼續
@@ -258,11 +258,11 @@ public class MineSweeperTest {
         init.add("-|-");
         ArrayList<Cell> cells = createCell(init);
 
-        ICellCreator creator = new FakeCellCreator();
-        ((FakeCellCreator) creator).cells = cells;
+        FakeCellCreator creator = new FakeCellCreator();
+        creator.cells = cells;
         mineSweeper.startGame(creator);
 
         mineSweeper.tap(1,0);
-        Assert.assertEquals(MineSweeper.STATUS.PLAYING,mineSweeper.status);
+        Assert.assertEquals(GameStatus.PLAYING,mineSweeper.status);
     }
 }

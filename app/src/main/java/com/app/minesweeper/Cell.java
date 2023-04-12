@@ -14,9 +14,9 @@ public class Cell implements Parcelable {
     public int y; //座標y
     public CellStatus status = null; //方格狀態(開或合)
 
-/**
- * constructor.
-*/
+    /**
+     * constructor
+    */
     public Cell() {
 
     }

@@ -7,25 +7,22 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+/**
+ * MineSweeper 是一個踩地雷遊戲的邏輯程式
+ * 這個程式碼定義了 MineSweeper 類別，該類別代表整個地雷遊戲的邏輯，包括地圖的生成、遊戲結果判斷等等。
+ * MineSweeper 實現了 Parcelable 介面，以便在 Activity 和 Fragment 等元件之間傳遞
+ */
 public class MineSweeper implements Parcelable {
 
-    ArrayList<Cell> cells = new ArrayList<>();
-    public STATUS status = null;
-
-    public enum STATUS {
-        PLAYING, DIE, WIN
-    }
+    ArrayList<Cell> cells = new ArrayList<>(); // 儲存方格資訊的陣列
+    public GameStatus status = null; // 當前遊戲狀態
 
     public MineSweeper(){
 
     }
     protected MineSweeper(Parcel in) {
         in.readTypedList(cells, Cell.CREATOR);
-        this.status = STATUS.valueOf(in.readString());
-
-        getClass().getClassLoader();
-        Thread.currentThread().getContextClassLoader();
-        Cell.class.getClassLoader();
+        this.status = GameStatus.valueOf(in.readString());
     }
 
     public static final Creator<MineSweeper> CREATOR = new Creator<MineSweeper>() {
@@ -47,21 +44,27 @@ public class MineSweeper implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeTypedList(cells); // 筆記：
+        parcel.writeTypedList(cells);
         parcel.writeString(this.status.name());
     }
 
 
-    // 使開始遊戲
+    /**
+     * 開始遊戲，使用傳入的 ICellCreator 實例建立方格(Cell)物件。
+     * @param cellCreator 方格產生器，負責建立方格(Cell)物件。
+     */
     public void startGame(ICellCreator cellCreator) {
         cells = cellCreator.create();
         for (Cell cell : cells) {
             setCellNextStatus(cell);
         }
-        this.status = STATUS.PLAYING;
+        this.status = GameStatus.PLAYING;
     }
 
-    // 找出周遭地雷數量
+    /**
+     * 找出指定方格周圍地雷的數量
+     * @param cell 要處理的方格
+     */
     private void setCellNextStatus(Cell cell) {
         for (int x = cell.x - 1; x <= cell.x + 1; x++) {
             for (int y = cell.y - 1; y <= cell.y + 1; y++) {
@@ -78,7 +81,11 @@ public class MineSweeper implements Parcelable {
         }
     }
 
-    // 按下方格
+    /**
+     * 按下指定方格
+     * @param xIndex 指定方格的 x 座標
+     * @param yIndex 指定方格的 y 座標
+     */
     public void tap(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
         if(cell.status == CellStatus.OPEN) return;
@@ -87,7 +94,11 @@ public class MineSweeper implements Parcelable {
         openCellsAround(xIndex, yIndex);
     }
 
-    // 打開周圍格子
+    /**
+     * 打開指定方格周圍的方格
+     * @param xIndex 指定方格的 x 座標
+     * @param yIndex 指定方格的 y 座標
+     */
     private void openCellsAround(int xIndex, int yIndex) {
         if (getCell(xIndex, yIndex).nextMines == 0) {
             for (int x = xIndex - 1; x <= xIndex + 1; x++) {
@@ -111,14 +122,21 @@ public class MineSweeper implements Parcelable {
         }
     }
 
-    // 檢查遊戲結果
+    /**
+     * 檢查遊戲結果，更新遊戲狀態
+     * @param cell 目前被操作的方格
+     */
     private void checkGameResult(Cell cell) {
         // 你贏了!
-        if (allSafeCellsOpened(cells)) this.status = STATUS.WIN;
+        if (allSafeCellsOpened(cells)) this.status = GameStatus.WIN;
         // 你輸了!
-        if (cell.isMine) this.status = STATUS.DIE;
+        if (cell.isMine) this.status = GameStatus.DIE;
     }
 
+    /**
+     * 檢查是否所有無地雷的方格都已經打開
+     * @param cells 目前所有方格
+     */
     private Boolean allSafeCellsOpened(ArrayList<Cell> cells) {
         for (Cell checkCell : cells) {
             if (!checkCell.isMine && checkCell.status == CellStatus.CLOSE) {
@@ -128,7 +146,11 @@ public class MineSweeper implements Parcelable {
         return true;
     }
 
-    // 由x,y座標取得目標方格物件
+    /**
+     * 由 x,y 座標取得指定方格的 Cell 物件
+     * @param x 指定方格的 x 座標
+     * @param y 指定方格的 y 座標
+     */
     public Cell getCell(int x, int y) {
         Cell cell = new Cell();
         for (Cell c : cells) {
@@ -140,7 +162,11 @@ public class MineSweeper implements Parcelable {
         return cell;
     }
 
-    // 插旗拔旗
+    /**
+     * 對指定方格修改插旗狀態。若原本有旗子，則拔旗；若無，則插旗。
+     * @param xIndex 指定方格的 x 座標
+     * @param yIndex 指定方格的 y 座標
+     */
     public void tapFlag(int xIndex, int yIndex) {
         Cell cell = getCell(xIndex, yIndex);
         cell.isFlagged = !cell.isFlagged;
