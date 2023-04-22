@@ -2,14 +2,15 @@ package com.app.minesweeper;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
-import com.app.minesweeper.databinding.ActivityMainBinding;
 import com.app.minesweeper.databinding.FragmentMenuBinding;
 
 /**
@@ -17,48 +18,36 @@ import com.app.minesweeper.databinding.FragmentMenuBinding;
  */
 public class MenuFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
+    private FragmentMenuBinding binding = null;
 
     public MenuFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MenuFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MenuFragment newInstance(String param1, String param2) {
-        MenuFragment fragment = new MenuFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentMenuBinding.inflate(inflater,container,false);
 
-       return inflater.inflate(R.layout.fragment_menu, container, false);
+        // 取得根視圖
+        View view = binding.getRoot();
+
+        setSpinnerAdapter(R.array.players_array, binding.spPlayers);
+        setSpinnerAdapter(R.array.sizes_array, binding.spSizes);
+        setSpinnerAdapter(R.array.levels_array, binding.spLevels);
+
+        return view;
     }
 
-
+    private void setSpinnerAdapter(int textArrayResId, AppCompatSpinner spinner) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
+                textArrayResId,R.layout.spinner_style);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(adapter);
+    }
 }

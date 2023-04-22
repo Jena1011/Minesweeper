@@ -13,11 +13,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.*;
 
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -41,8 +38,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+// TODO：處理click和longClick執行失敗的問題
+
 @RunWith(AndroidJUnit4.class)
-public class GameFragmentTest {
+public class GameFragmentTest extends TestUtils {
 
     TestNavHostController navController;
 
@@ -229,41 +228,6 @@ public class GameFragmentTest {
                 )
         );
         frameLayout.perform(click());
-    }
-
-    // 返回一個Matcher，用於查找父元素中指定位置的子元素
-    private Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position){
-        return new TypeSafeMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && ((ViewGroup) parent).getChildAt(position).equals(view);
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position "+ position + " in parent");
-                parentMatcher.describeTo(description);
-            }
-        };
-    }
-
-    // 返回一個Matcher，用於查找父元素中的子元素
-    private Matcher<View> childOf(final Matcher<View> parentMatcher){
-        return new TypeSafeMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent);
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child in parent");
-                parentMatcher.describeTo(description);
-            }
-        };
     }
 
     // 檢查方格中圖片是否符合預期

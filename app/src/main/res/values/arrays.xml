@@ -3,4 +3,24 @@
     <array name="level">
         <item name="level9">9X9</item>
     </array>
+
+    <string-array name="players_array">
+        <item name="player1">player1</item>
+        <item name="player2">player2</item>
+        <item name="player3">player3</item>
+        <item name="player4">player4</item>
+    </string-array>
+
+    <string-array name="sizes_array">
+        <item name="size1">6X6</item>
+        <item name="size2">9X9</item>
+        <item name="size3">9X16</item>
+    </string-array>
+
+    <string-array name="levels_array">
+        <item name="level1">easy</item>
+        <item name="level2">normal</item>
+        <item name="level3">hard</item>
+    </string-array>
+
 </resources>

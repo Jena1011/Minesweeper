@@ -33,8 +33,8 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<MainActivity> rule =
-            new ActivityScenarioRule<>(MainActivity.class);
+//    @Rule
+//    public ActivityScenarioRule<MainActivity> rule =
+//            new ActivityScenarioRule<>(MainActivity.class);
 
 }

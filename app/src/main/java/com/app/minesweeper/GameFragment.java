@@ -24,7 +24,7 @@ public class GameFragment extends Fragment implements ICellTapListener{
     private MineSweeper mineSweeper; // MineSweeper 物件，表示踩地雷遊戲
     private MainAdapter mainAdapter; // 用於創建雷區
     private RecyclerView rvCells; // 用於創建雷區
-    private final String KEY_MINESWEEPER = "mineSweeper_key"; // 用於保存遊戲狀態
+    private final static String KEY_MINESWEEPER = "mineSweeper_key"; // 用於保存遊戲狀態
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
