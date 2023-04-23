@@ -8,7 +8,11 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+/**
+ * 測試相關工具
+ */
 abstract public class TestUtils {
+
     // 返回一個Matcher，用於查找父元素中指定位置的子元素
     public static Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position) {
         return new TypeSafeMatcher<View>() {

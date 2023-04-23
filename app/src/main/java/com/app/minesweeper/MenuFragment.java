@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +28,9 @@ public class MenuFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -40,6 +44,11 @@ public class MenuFragment extends Fragment {
         setSpinnerAdapter(R.array.players_array, binding.spPlayers);
         setSpinnerAdapter(R.array.sizes_array, binding.spSizes);
         setSpinnerAdapter(R.array.levels_array, binding.spLevels);
+        binding.btStart.setOnClickListener(view1 -> {
+            NavDirections action =
+                    MenuFragmentDirections.actionMenuFragmentToGameFragment();
+            Navigation.findNavController(view1).navigate(action);
+        });
 
         return view;
     }

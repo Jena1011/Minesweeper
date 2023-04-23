@@ -105,4 +105,13 @@ public class MenuFragmentTest {
         onData(allOf(is(instanceOf(String.class)),is("normal"))).perform(click());
         onView(withId(R.id.sp_levels)).check(matches(withSpinnerText(containsString("normal"))));
     }
+
+    // UI測試：按下「遊戲開始」bt，導航至遊戲畫面
+    @Test
+    public void test_navigateToGame(){
+        if(navController.getCurrentDestination()==null)return;
+        onView(withId(R.id.bt_start)).perform(click());
+        Assert.assertEquals(navController.getCurrentDestination().getId(),R.id.gameFragment);
+    }
+
 }
