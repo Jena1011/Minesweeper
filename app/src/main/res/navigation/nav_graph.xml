@@ -10,7 +10,6 @@
         android:name="com.app.minesweeper.GameFragment"
         android:label="GameFragment"
         tools:layout="@layout/fragment_game">
-<!--        傳遞參數，參數設定在目的地即可 -->
         <argument
             android:name="player"
             app:argType="string" />

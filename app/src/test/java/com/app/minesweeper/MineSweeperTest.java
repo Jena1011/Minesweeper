@@ -18,7 +18,7 @@ public class MineSweeperTest {
     //單元測試：開始遊戲 6X6 地圖建造
     @Test
     public void test_startGameWithMap6X6(){
-        CellCreator cellCreator = new CellCreator("6X6");
+        CellCreator cellCreator = new CellCreator("6X6","hard");
         mineSweeper.startGame(cellCreator);
         ArrayList<Cell> cells = mineSweeper.cells;
         Assert.assertEquals(36,cells.size());
@@ -27,7 +27,7 @@ public class MineSweeperTest {
     //單元測試：開始遊戲 9X9 地圖建造
     @Test
     public void test_startGameWithMap9X9(){
-        CellCreator cellCreator = new CellCreator("9X9");
+        CellCreator cellCreator = new CellCreator("9X9","hard");
         mineSweeper.startGame(cellCreator);
         ArrayList<Cell> cells = mineSweeper.cells;
         Assert.assertEquals(81,cells.size());

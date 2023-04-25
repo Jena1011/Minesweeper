@@ -8,15 +8,18 @@ import java.util.HashSet;
  */
 public class CellCreator implements ICellCreator {
     protected String size = ""; // 地圖尺寸
+    protected String level = ""; // 遊戲難度
     private int numRows; // 排數
     private int numCols; // 列數
 
     /**
      * 建構子。根據地圖尺寸設定每排及列的格子數量
      * @param size 地圖尺寸
+     * @param level 難度
      */
-    CellCreator(String size){
+    CellCreator(String size, String level){
         this.size = size;
+        this.level = level;
     }
 
     /**
@@ -51,7 +54,7 @@ public class CellCreator implements ICellCreator {
         }
 
         // 產生作為地雷位置的隨機索引值
-        HashSet<Integer> indexSet = createRandomIndexes(numRows,numCols);
+        HashSet<Integer> indexSet = createRandomIndexes(numRows,numCols,level);
 
         // 生成 cell 列表
         for (int y = 0; y < numRows; y++) {
@@ -71,10 +74,23 @@ public class CellCreator implements ICellCreator {
      * 根據地圖尺寸及難度，產生相應數量隨機索引，可用來設定地雷位置
      * @param numRows 地圖行數
      * @param numCols 地圖列數
+     * @param level 難度
      * @return 代表地雷位置的 HashSet<Integer>
      */
-    public HashSet<Integer> createRandomIndexes(int numRows, int numCols) {
-        int numberOfIndex = (int) Math.ceil(numRows * numCols * 0.15);
+    public HashSet<Integer> createRandomIndexes(int numRows, int numCols, String level) {
+        float minedPercent = 0.0f;
+        switch (level){
+            case "easy":
+                minedPercent = 0.09f;
+                break;
+            case "normal":
+                minedPercent = 0.12f;
+                break;
+            case "hard":
+                minedPercent = 0.15f;
+                break;
+        }
+        int numberOfIndex = (int) Math.ceil(numRows * numCols * minedPercent);
         HashSet<Integer> indexSet = new HashSet<>();
         while (indexSet.size() < numberOfIndex) {
             int randomIndex = (int) (Math.random() * numRows * numCols + 1);
