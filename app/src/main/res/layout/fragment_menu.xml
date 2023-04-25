@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     tools:context=".MenuFragment">
-
-    <!-- TODO: Menu布局 -->
-
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/sp_players"
         android:layout_width="0dp"

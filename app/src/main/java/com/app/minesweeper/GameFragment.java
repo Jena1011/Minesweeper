@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.app.minesweeper.databinding.FragmentGameBinding;
-//TODO:難度調整
-//TODO:註解
 //TODO:戰績
 //TODO:地雷總數
 //TODO:使用旗子數量
