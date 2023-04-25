@@ -58,7 +58,7 @@ public class MenuFragment extends Fragment {
     }
 
     /**
-     * 設定 Spinner 的選項內容
+     * 設定 Spinner 的選項文字
      * @param textArrayResId 傳入的文字列表資源
      * @param spinner binding.spinnerName
      */
