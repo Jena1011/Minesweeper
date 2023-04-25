@@ -3,21 +3,64 @@ package com.app.minesweeper;
 import java.util.ArrayList;
 
 public class CellCreator implements ICellCreator {
-    public int level = 0; // 難度等級
+    public String size = ""; // 地圖尺寸
+    int numRows = 0; // 排數
+    int numCols = 0; // 列數
+
+    public CellCreator(String size) {
+        this.size = size;
+    }
+
+    public CellCreator() {
+
+    }
 
     // 創造格子
     @Override
     public ArrayList<Cell> create() {
         ArrayList<String> init = new ArrayList<>();
-        init.add("*|-|-|-|-|*|-|-|-");
-        init.add("-|-|-|-|-|-|-|-|-");
-        init.add("-|-|-|-|-|*|-|-|-");
-        init.add("*|*|-|-|-|-|-|-|*");
-        init.add("-|*|-|-|*|-|-|-|*");
-        init.add("-|-|-|*|-|-|-|-|*");
-        init.add("-|-|-|-|-|-|-|-|-");
-        init.add("-|-|-|-|-|-|*|-|-");
-        init.add("-|-|*|-|-|-|-|-|-");
+        switch (size){
+            case "6X6":
+                init.add("*|-|-|-|-|-");
+                init.add("-|-|-|-|-|-");
+                init.add("-|-|-|-|-|-");
+                init.add("*|*|-|-|-|-");
+                init.add("-|*|-|-|*|-");
+                init.add("-|-|-|*|-|-");
+                numRows = 6;
+                numCols = 6;
+                break;
+            case "9X9":
+                init.add("*|-|-|-|-|*|-|-|-");
+                init.add("-|-|-|-|-|-|-|-|-");
+                init.add("-|-|-|-|-|*|-|-|-");
+                init.add("*|*|-|-|-|-|-|-|*");
+                init.add("-|*|-|-|*|-|-|-|*");
+                init.add("-|-|-|*|-|-|-|-|*");
+                init.add("-|-|-|-|-|-|-|-|-");
+                init.add("-|-|-|-|-|-|*|-|-");
+                init.add("-|-|*|-|-|-|-|-|-");
+                numRows = 9;
+                numCols = 9;
+                break;
+            case "9X13":
+                init.add("*|-|-|-|-|*|-|-|-");
+                init.add("-|-|-|-|-|-|-|-|-");
+                init.add("-|-|-|-|-|*|-|-|-");
+                init.add("*|*|-|-|-|-|-|-|*");
+                init.add("-|*|-|-|*|-|-|-|*");
+                init.add("-|-|-|*|-|-|-|-|*");
+                init.add("-|-|-|-|-|-|-|-|-");
+                init.add("-|-|-|-|-|-|*|-|-");
+                init.add("-|-|*|-|-|-|-|-|-");
+                init.add("-|*|-|-|*|-|-|-|*");
+                init.add("-|-|-|*|-|-|-|-|*");
+                init.add("-|-|-|-|-|-|-|-|-");
+                init.add("-|-|-|-|-|-|-|-|-");
+                numRows = 13;
+                numCols = 9;
+                break;
+        }
         return createCell(init);
     }
 
@@ -41,5 +84,15 @@ public class CellCreator implements ICellCreator {
         }
         System.out.println(cells);
         return cells;
+    }
+
+    @Override
+    public int getNumCols() {
+        return numCols;
+    }
+
+    @Override
+    public int getNumRows() {
+        return numRows;
     }
 }

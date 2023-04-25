@@ -14,7 +14,7 @@
     <string-array name="sizes_array">
         <item name="size1">6X6</item>
         <item name="size2">9X9</item>
-        <item name="size3">9X16</item>
+        <item name="size3">9X13</item>
     </string-array>
 
     <string-array name="levels_array">

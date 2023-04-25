@@ -28,14 +28,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 // TODO：處理click和longClick執行失敗的問題
-
 @RunWith(AndroidJUnit4.class)
 public class GameFragmentTest extends TestUtils {
 
@@ -45,10 +42,15 @@ public class GameFragmentTest extends TestUtils {
     public ActivityScenarioRule<MainActivity> rule =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    @Before
-    public void setUp() {
+    // GameFragment 測試初始化
+    public void setUp(String player, String size, String level) {
         navController = new TestNavHostController(ApplicationProvider.getApplicationContext());
-        FragmentScenario<GameFragment> gameFragmentScenario = FragmentScenario.launchInContainer(GameFragment.class, null, R.style.Theme_Minesweeper);
+        GameFragmentArgs fragmentArgs =
+                new com.app.minesweeper.GameFragmentArgs
+                .Builder(player, size, level)
+                .build();
+
+        FragmentScenario<GameFragment> gameFragmentScenario = FragmentScenario.launchInContainer(GameFragment.class, fragmentArgs.toBundle(), R.style.Theme_Minesweeper);
         gameFragmentScenario.onFragment(myFragment -> {
             navController.setGraph(R.navigation.nav_graph);
             Navigation.setViewNavController(myFragment.requireView(), navController);
@@ -60,24 +62,37 @@ public class GameFragmentTest extends TestUtils {
         if (navController != null) navController = null;
     }
 
-    // UI測試：顯示遊戲畫面
+    // UI測試：6X6地圖，顯示81個格子
     @Test
-    public void test_showGameFragment() {
+    public void test_load6X6Cell() {
+        setUp("player1","6X6","easy");
         if (navController.getCurrentDestination() == null) return;
-        Assert.assertEquals(navController.getCurrentDestination().getId(), R.id.gameFragment);
+        onView(withId(R.id.rv_cells))
+                .check(matches(hasChildCount(36)));
     }
 
-    // UI測試：一開始，顯示81個格子
+    // UI測試：9X9地圖，顯示81個格子
     @Test
-    public void loadCellTest() {
+    public void test_load9X9Cell() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         onView(withId(R.id.rv_cells))
                 .check(matches(hasChildCount(81)));
     }
 
+    // UI測試：9X13地圖，顯示81個格子
+    @Test
+    public void test_load13X9Cell() {
+        setUp("player1","9X13","easy");
+        if (navController.getCurrentDestination() == null) return;
+        onView(withId(R.id.rv_cells))
+                .check(matches(hasChildCount(117)));
+    }
+
     // UI測試：點擊格子，若周圍有炸彈，顯示炸彈數量
     @Test
-    public void clickShowNextMines() {
+    public void test_clickShowNextMines() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(1, 0);
         checkNumber(1, 0, 1);
@@ -85,7 +100,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
     @Test
-    public void clickShowNextNextMines() {
+    public void test_clickShowNextNextMines() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(8, 8);
         checkNumber(7, 6, 2);
@@ -96,7 +112,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：長按格子，顯示旗子圖示
     @Test
-    public void longPressShowFlag() {
+    public void test_longPressShowFlag() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         longPressCellAt(0, 0);
         checkCellImage(0, 0, R.drawable.flag);
@@ -104,7 +121,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：長按已插旗的格子，旗子圖示消失
     @Test
-    public void longPressRemoveFlag() {
+    public void test_longPressRemoveFlag() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         longPressCellAt(0, 0); //插旗
         longPressCellAt(0, 0); //拔旗
@@ -113,7 +131,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：點擊格子，若格子有炸彈，顯示 Game Over
     @Test
-    public void testClickMineGameOver() {
+    public void test_clickMineGameOver() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(0, 0);
         checkGameStatus("Game Over");
@@ -121,7 +140,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
     @Test
-    public void testAllSafeCellOpenWin() {
+    public void test_allSafeCellOpenWin() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(2, 1);
         clickCellAt(8, 0);
@@ -142,7 +162,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：按下 Restart 按鈕，重置畫面 ( 全部格子沒圖案 )
     @Test
-    public void testRestartButton() {
+    public void test_restartButton() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         longPressCellAt(5, 0);
         clickCellAt(2, 1);
@@ -160,7 +181,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：Game Over 後不得點擊方格
     @Test
-    public void testGameOverCellsDisabled() {
+    public void test_gameOverCellsDisabled() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(0, 0);
         for (int i = 0; i < 81; i++) {
@@ -175,7 +197,8 @@ public class GameFragmentTest extends TestUtils {
 
     // UI測試：旋轉畫面資料不重置
     @Test
-    public void testRotateScreen() {
+    public void test_rotateScreen() {
+        setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(0, 1);
         checkNumber(0, 1, 1);

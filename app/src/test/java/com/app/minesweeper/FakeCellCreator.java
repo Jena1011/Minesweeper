@@ -12,4 +12,14 @@ public class FakeCellCreator implements ICellCreator {
         return cells;
     }
 
+    @Override
+    public int getNumRows() {
+        return 0;
+    }
+
+    @Override
+    public int getNumCols() {
+        return 0;
+    }
+
 }

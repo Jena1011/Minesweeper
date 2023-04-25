@@ -1,5 +1,6 @@
 package com.app.minesweeper;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -13,16 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = "jena_ma";
+    private final static String TAG = "jena_ma";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 設定顯示方式為豎屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // 隱藏狀態列
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
-
 }

@@ -15,15 +15,33 @@ public class MineSweeperTest {
         mineSweeper = new MineSweeper();
     }
 
-    //單元測試：開始遊戲
+    //單元測試：開始遊戲 6X6 地圖建造
     @Test
-    public void startGame(){
-        int level = 9;
-        CellCreator cellCreator = new CellCreator();
-        cellCreator.level = level;
+    public void test_startGameWithMap6X6(){
+        CellCreator cellCreator = new CellCreator("6X6");
+        mineSweeper.startGame(cellCreator);
+        ArrayList<Cell> cells = mineSweeper.cells;
+        Assert.assertEquals(36,cells.size());
+    }
+
+    //單元測試：開始遊戲 9X9 地圖建造
+    @Test
+    public void test_startGameWithMap9X9(){
+        CellCreator cellCreator = new CellCreator("9X9");
         mineSweeper.startGame(cellCreator);
         ArrayList<Cell> cells = mineSweeper.cells;
         Assert.assertEquals(81,cells.size());
+    }
+
+    //單元測試：開始遊戲 9X13 地圖建造
+    @Test
+    public void test_startGameWithMap9X13(){
+        String size = "9X13";
+        CellCreator cellCreator = new CellCreator();
+        cellCreator.size = size;
+        mineSweeper.startGame(cellCreator);
+        ArrayList<Cell> cells = mineSweeper.cells;
+        Assert.assertEquals(117,cells.size());
     }
 
     //單元測試：點擊格子，變成打開狀態

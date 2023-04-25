@@ -11,6 +11,14 @@ import java.util.HashSet;
  */
 public interface ICellCreator {
 
+    int numRows = 0; // 排數
+    int numCols = 0; // 列數
+
     ArrayList<Cell> create();
+
+    default int getNumRows() { return numRows; }
+    default int getNumCols() {
+        return numCols;
+    }
 
 }

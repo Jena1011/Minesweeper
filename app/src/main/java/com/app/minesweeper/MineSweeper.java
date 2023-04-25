@@ -16,6 +16,8 @@ public class MineSweeper implements Parcelable {
 
     ArrayList<Cell> cells = new ArrayList<>(); // 儲存方格資訊的陣列
     public GameStatus status = null; // 當前遊戲狀態
+    int numRows; // 排數
+    int numCols; // 列數
 
     public MineSweeper(){
 
@@ -54,11 +56,13 @@ public class MineSweeper implements Parcelable {
      * @param cellCreator 方格產生器，負責建立方格(Cell)物件。
      */
     public void startGame(ICellCreator cellCreator) {
-        cells = cellCreator.create();
+        this.cells = cellCreator.create();
         for (Cell cell : cells) {
             setCellNextStatus(cell);
         }
         this.status = GameStatus.PLAYING;
+        this.numCols = cellCreator.getNumCols();
+        this.numRows = cellCreator.getNumRows();
     }
 
     /**

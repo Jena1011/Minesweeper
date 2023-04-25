@@ -9,19 +9,18 @@ import java.util.ArrayList;
 
 public class CellCreatorTest {
 
-    // 單元測試：創造符合level的格子數
+    // 單元測試：創造符合size的格子數
     @Test
-    public void testCreateCell(){
-        CellCreator cellCreator = createLevelCell(9);
-        ArrayList<Cell> cells = cellCreator.create();
-        Assert.assertEquals(81,cells.size());
+    public void test_createCell(){
+        Assert.assertEquals(36,new CellCreator("6X6").create().size());
+        Assert.assertEquals(81,new CellCreator("9X9").create().size());
+        Assert.assertEquals(117,new CellCreator("9X13").create().size());
     }
 
     // 單元測試：一開始所有格子必須關閉
     @Test
-    public void cell_should_close(){
-        CellCreator cellCreator = new CellCreator();
-        cellCreator.level = 9;
+    public void test_cellShouldClose(){
+        CellCreator cellCreator = new CellCreator("9X9");
         ArrayList<Cell> cells = cellCreator.create();
        int closeCount = 0;
         for(Cell cell:cells){
@@ -34,9 +33,8 @@ public class CellCreatorTest {
 
     // 單元測試：15%的格子埋有地雷
     @Test
-    public void cell_should_have_15_percent_mine(){
-        CellCreator cellCreator = new CellCreator();
-        cellCreator.level = 9;
+    public void test_cellShouldHave15PercentMine(){
+        CellCreator cellCreator = new CellCreator("9X9");
         ArrayList<Cell> cells = cellCreator.create();
         int mineCount = 0;
         for(Cell cell:cells){
@@ -45,12 +43,5 @@ public class CellCreatorTest {
             }
         }
         Assert.assertEquals(13,mineCount);
-    }
-
-    @NonNull
-    private CellCreator createLevelCell(int level) {
-        CellCreator cellCreator = new CellCreator();
-        cellCreator.level = level;
-        return cellCreator;
     }
 }

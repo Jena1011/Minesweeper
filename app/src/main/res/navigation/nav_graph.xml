@@ -9,7 +9,18 @@
         android:id="@+id/gameFragment"
         android:name="com.app.minesweeper.GameFragment"
         android:label="GameFragment"
-        tools:layout="@layout/fragment_game"/>
+        tools:layout="@layout/fragment_game">
+<!--        傳遞參數，參數設定在目的地即可 -->
+        <argument
+            android:name="player"
+            app:argType="string" />
+        <argument
+            android:name="size"
+            app:argType="string" />
+        <argument
+            android:name="level"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.app.minesweeper.MenuFragment"
@@ -17,7 +28,8 @@
         tools:layout="@layout/fragment_menu" >
         <action
             android:id="@+id/action_menuFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            app:destination="@id/gameFragment" >
+        </action>
     </fragment>
 
 </navigation>

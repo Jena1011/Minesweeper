@@ -9,12 +9,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.app.minesweeper.databinding.FragmentGameBinding;
-
+//TODO:難度調整
+//TODO:註解
+//TODO:戰績
+//TODO:地雷總數
+//TODO:使用旗子數量
 /**
  * 遊戲主畫面 Fragment
  */
@@ -25,6 +31,8 @@ public class GameFragment extends Fragment implements ICellTapListener{
     private MainAdapter mainAdapter; // 用於創建雷區
     private RecyclerView rvCells; // 用於創建雷區
     private final static String KEY_MINESWEEPER = "mineSweeper_key"; // 用於保存遊戲狀態
+    private final String TAG = "jena_gf";
+    String size;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,8 +42,13 @@ public class GameFragment extends Fragment implements ICellTapListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d(TAG,"onCreateView()");
         binding = FragmentGameBinding.inflate(inflater, container, false);
+
+        Toast.makeText(requireContext(), "歡迎玩家 "+requireArguments().getString("player") +" !", Toast.LENGTH_SHORT).show();
+
+        assert getArguments() != null;
+        size = getArguments().getString("size");
 
         // 判斷是否保有之前遊戲狀態
        if(savedInstanceState==null){
@@ -50,13 +63,14 @@ public class GameFragment extends Fragment implements ICellTapListener{
        // 生成雷區畫面
         rvCells = binding.rvCells;
         setMainAdapter(mineSweeper);
-        rvCells.setLayoutManager(new GridLayoutManager(view.getContext(), 9));
+        rvCells.setLayoutManager(new GridLayoutManager(view.getContext(), mineSweeper.numCols));
 
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View gameView, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG,"onViewCreated()");
         super.onViewCreated(gameView, savedInstanceState);
         binding.btRestart.setOnClickListener(view -> resetGame()); // 設定重新開始bt監聽器
         setStatusText(); // 設定遊戲狀態文字
@@ -67,10 +81,10 @@ public class GameFragment extends Fragment implements ICellTapListener{
         mineSweeper = new MineSweeper();
         //mock測試使用
         CellCreator cellCreator = new CellCreator();
-        cellCreator.level= 9;
+        cellCreator.size = size;
         mineSweeper.startGame(cellCreator);
 //        //prod測試使用
-//        mineSweeper.startGame(new CellCreator(9));
+//        mineSweeper.startGame(new CellCreator(size));
     }
 
     // rv 設定 mainAdapter
@@ -86,10 +100,10 @@ public class GameFragment extends Fragment implements ICellTapListener{
             mineSweeper.cells.clear();
             //mock測試使用
             CellCreator cellCreator = new CellCreator();
-            cellCreator.level= 9;
+            cellCreator.size = size;
             mineSweeper.startGame(cellCreator);
 //            //prod測試使用
-//            mineSweeper.startGame(new CellCreator(9));
+//            mineSweeper.startGame(new CellCreator(size));
         }
         if(mainAdapter!=null){
             setMainAdapter(mineSweeper);
@@ -132,10 +146,12 @@ public class GameFragment extends Fragment implements ICellTapListener{
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(TAG,"onSaveInstanceState()");
         if (mineSweeper != null) {
             outState.putParcelable(KEY_MINESWEEPER, mineSweeper); // 傳送物件，該物件類要實作 Parcelable 介面
         }
         String KEY_GAME_STATUS = "gameStatus_key";
         outState.putString(KEY_GAME_STATUS,binding.tvGameStatus.getText().toString());
     }
+
 }
