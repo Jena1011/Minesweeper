@@ -1,5 +1,5 @@
-![](https://i.imgur.com/Ab8bfNM.png)
 # Minesweeper (踩地雷app)  
+![](https://i.imgur.com/Ab8bfNM.png)
 ## 這是什麼：
 - 這是一個使用 *Java* 開發的小型踩地雷 *Android App*  
 - 功能包含「基本踩地雷遊戲功能」、「地圖尺寸及難度調整」  
