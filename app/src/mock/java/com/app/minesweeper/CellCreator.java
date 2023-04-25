@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class CellCreator implements ICellCreator {
     public String size = ""; // 地圖尺寸
+    public String level = "";
     int numRows = 0; // 排數
     int numCols = 0; // 列數
 
-    public CellCreator(String size) {
+    public CellCreator(String size, String level) {
         this.size = size;
+        this.level = level;
     }
 
     public CellCreator() {
@@ -19,47 +21,135 @@ public class CellCreator implements ICellCreator {
     @Override
     public ArrayList<Cell> create() {
         ArrayList<String> init = new ArrayList<>();
-        switch (size){
-            case "6X6":
-                init.add("*|-|-|-|-|-");
-                init.add("-|-|-|-|-|-");
-                init.add("-|-|-|-|-|-");
-                init.add("*|*|-|-|-|-");
-                init.add("-|*|-|-|*|-");
-                init.add("-|-|-|*|-|-");
-                numRows = 6;
-                numCols = 6;
-                break;
-            case "9X9":
-                init.add("*|-|-|-|-|*|-|-|-");
-                init.add("-|-|-|-|-|-|-|-|-");
-                init.add("-|-|-|-|-|*|-|-|-");
-                init.add("*|*|-|-|-|-|-|-|*");
-                init.add("-|*|-|-|*|-|-|-|*");
-                init.add("-|-|-|*|-|-|-|-|*");
-                init.add("-|-|-|-|-|-|-|-|-");
-                init.add("-|-|-|-|-|-|*|-|-");
-                init.add("-|-|*|-|-|-|-|-|-");
-                numRows = 9;
-                numCols = 9;
-                break;
-            case "9X13":
-                init.add("*|-|-|-|-|*|-|-|-");
-                init.add("-|-|-|-|-|-|-|-|-");
-                init.add("-|-|-|-|-|*|-|-|-");
-                init.add("*|*|-|-|-|-|-|-|*");
-                init.add("-|*|-|-|*|-|-|-|*");
-                init.add("-|-|-|*|-|-|-|-|*");
-                init.add("-|-|-|-|-|-|-|-|-");
-                init.add("-|-|-|-|-|-|*|-|-");
-                init.add("-|-|*|-|-|-|-|-|-");
-                init.add("-|*|-|-|*|-|-|-|*");
-                init.add("-|-|-|*|-|-|-|-|*");
-                init.add("-|-|-|-|-|-|-|-|-");
-                init.add("-|-|-|-|-|-|-|-|-");
-                numRows = 13;
-                numCols = 9;
-                break;
+        if(level.equals("hard")){
+            switch (size){
+                case "6X6":
+                    init.add("*|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-");
+                    init.add("*|*|-|-|-|-");
+                    init.add("-|*|-|-|*|-");
+                    init.add("-|-|-|*|-|-");
+                    numRows = 6;
+                    numCols = 6;
+                    break;
+                case "9X9":
+                    init.add("*|-|-|-|-|*|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|*|-|-|-");
+                    init.add("*|*|-|-|-|-|-|-|*");
+                    init.add("-|*|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|*|-|-");
+                    init.add("-|-|*|-|-|-|-|-|-");
+                    numRows = 9;
+                    numCols = 9;
+                    break;
+                case "9X13":
+                    init.add("*|-|-|-|-|*|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|*|-|-|-");
+                    init.add("*|*|-|-|-|-|-|-|*");
+                    init.add("-|*|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|*|-|-");
+                    init.add("-|-|*|-|-|-|-|-|-");
+                    init.add("-|*|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    numRows = 13;
+                    numCols = 9;
+                    break;
+            }
+        }else if(level.equals("normal")){
+            switch (size){
+                case "6X6":
+                    init.add("-|-|-|*|-|-");
+                    init.add("-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-");
+                    init.add("*|-|-|-|-|-");
+                    init.add("-|*|-|-|*|-");
+                    init.add("-|-|-|*|-|-");
+                    numRows = 6;
+                    numCols = 6;
+                    break;
+                case "9X9":
+                    init.add("*|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|*|-|-|-");
+                    init.add("-|*|-|-|-|-|-|-|*");
+                    init.add("-|*|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|*|-|-|-|-|-|-");
+                    numRows = 9;
+                    numCols = 9;
+                    break;
+                case "9X13":
+                    init.add("*|-|-|-|-|*|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|*|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|*");
+                    init.add("-|-|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|*|-|-");
+                    init.add("-|-|*|-|-|-|-|-|-");
+                    init.add("-|*|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    numRows = 13;
+                    numCols = 9;
+                    break;
+            }
+        }else {
+            switch (size){
+                case "6X6":
+                    init.add("-|-|-|*|-|-");
+                    init.add("-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-");
+                    init.add("*|-|-|-|-|-");
+                    init.add("-|*|-|-|*|-");
+                    init.add("-|-|-|-|-|-");
+                    numRows = 6;
+                    numCols = 6;
+                    break;
+                case "9X9":
+                    init.add("*|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|*|-|-|-");
+                    init.add("-|*|-|-|-|-|-|-|*");
+                    init.add("-|*|-|-|*|-|-|-|-");
+                    init.add("-|-|-|*|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|*|-|-|-|-|-|-");
+                    numRows = 9;
+                    numCols = 9;
+                    break;
+                case "9X13":
+                    init.add("*|-|-|-|-|*|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|*|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|*|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|*|-|-|*|-|-|-|*");
+                    init.add("-|-|-|*|-|-|-|-|*");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    init.add("-|-|-|-|-|-|-|-|-");
+                    numRows = 13;
+                    numCols = 9;
+                    break;
+            }
         }
         return createCell(init);
     }

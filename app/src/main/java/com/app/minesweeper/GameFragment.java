@@ -30,7 +30,9 @@ public class GameFragment extends Fragment implements ICellTapListener{
     private RecyclerView rvCells; // 用於創建雷區
     private final static String KEY_MINESWEEPER = "mineSweeper_key"; // 用於保存遊戲狀態
     private final String TAG = "jena_gf";
-    String size;
+    String size; // 地圖尺寸
+    String level; // 難度
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class GameFragment extends Fragment implements ICellTapListener{
 
         assert getArguments() != null;
         size = getArguments().getString("size");
+        level = getArguments().getString("level");
 
         // 判斷是否保有之前遊戲狀態
        if(savedInstanceState==null){
@@ -77,12 +80,13 @@ public class GameFragment extends Fragment implements ICellTapListener{
     // 開始新遊戲
     private void startGame() {
         mineSweeper = new MineSweeper();
-        //mock測試使用
-        CellCreator cellCreator = new CellCreator();
-        cellCreator.size = size;
-        mineSweeper.startGame(cellCreator);
-//        //prod測試使用
-//        mineSweeper.startGame(new CellCreator(size));
+//        //mock測試使用
+//        CellCreator cellCreator = new CellCreator();
+//        cellCreator.size = size;
+//        cellCreator.level = level;
+//        mineSweeper.startGame(cellCreator);
+        //prod測試使用
+        mineSweeper.startGame(new CellCreator(size,level));
     }
 
     // rv 設定 mainAdapter
@@ -96,12 +100,13 @@ public class GameFragment extends Fragment implements ICellTapListener{
     private void resetGame() {
         if(mineSweeper!=null){
             mineSweeper.cells.clear();
-            //mock測試使用
-            CellCreator cellCreator = new CellCreator();
-            cellCreator.size = size;
-            mineSweeper.startGame(cellCreator);
-//            //prod測試使用
-//            mineSweeper.startGame(new CellCreator(size));
+//            //mock測試使用
+//            CellCreator cellCreator = new CellCreator();
+//            cellCreator.size = size;
+//            cellCreator.level = level;
+//            mineSweeper.startGame(cellCreator);
+            //prod測試使用
+            mineSweeper.startGame(new CellCreator(size,level));
         }
         if(mainAdapter!=null){
             setMainAdapter(mineSweeper);

@@ -101,7 +101,7 @@ public class GameFragmentTest extends TestUtils {
     // UI測試：點擊格子，若為周圍炸彈數量為0，自動打開周圍格子
     @Test
     public void test_clickShowNextNextMines() {
-        setUp("player1","9X9","easy");
+        setUp("player1","9X9","hard");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(8, 8);
         checkNumber(7, 6, 2);
@@ -124,9 +124,9 @@ public class GameFragmentTest extends TestUtils {
     public void test_longPressRemoveFlag() {
         setUp("player1","9X9","easy");
         if (navController.getCurrentDestination() == null) return;
-        longPressCellAt(0, 0); //插旗
-        longPressCellAt(0, 0); //拔旗
-        checkCellImage(0, 0, 0);
+        longPressCellAt(1, 1); //插旗
+        longPressCellAt(1, 1); //拔旗
+        checkCellImage(1, 1, 0);
     }
 
     // UI測試：點擊格子，若格子有炸彈，顯示 Game Over
@@ -141,7 +141,7 @@ public class GameFragmentTest extends TestUtils {
     // UI測試：所有沒地雷的格子都打開，顯示 Congratulation!
     @Test
     public void test_allSafeCellOpenWin() {
-        setUp("player1","9X9","easy");
+        setUp("player1","9X9","hard");
         if (navController.getCurrentDestination() == null) return;
         clickCellAt(2, 1);
         clickCellAt(8, 0);
